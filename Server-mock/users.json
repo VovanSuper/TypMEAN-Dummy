@@ -1,0 +1,52 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "Vovan_Super",
+            "age": 34,
+            "residence": {
+                "country": "Russian Federation",
+                "city": "Kaluga",
+                "Motor": "blvd, 3-13"
+            },
+            "registered": "21/11/2015",
+            "interests": "Footbal, Hockey, Boxing",
+            "paricipating": [
+                "1",
+                "2"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Manne Kaila",
+            "age": 38,
+            "residence": {
+                "country": "Finland",
+                "city": "Kuopio",
+                "Motor": "Sarkiniementie, 18"
+            },
+            "registered": "21/9/2018",
+            "interests": "Football, Hockey",
+            "paricipating": [
+                "1",
+                "2"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Mechalych",
+            "age": 33,
+            "residence": {
+                "country": "Finland",
+                "city": "Espoo",
+                "Motor": "Kruununtie, 3"
+            },
+            "registered": "21/11/2015",
+            "interests": "Football",
+            "paricipating": [
+                "1",
+                "3"
+            ]
+        }
+    ]
+}

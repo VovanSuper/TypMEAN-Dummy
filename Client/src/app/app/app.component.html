@@ -1,0 +1,30 @@
+<div class="container" fxLayout="column" fxFill>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>My Partners in Sports</span>
+
+      <span fxFlex></span>
+      <button mat-icon-button aria-label="toggle navbar" 
+        (click)="sideNav.toggle();menuOpened = !menuOpened" color="accent">
+        <mat-icon *ngIf="!menuOpened">open_in_new</mat-icon>
+        <mat-icon *ngIf="menuOpened">close</mat-icon>
+      </button>
+
+
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container fxFlex="1 1 100">
+    <mat-sidenav mode="push" [opened]="menuOpened" #sideNav>
+      <mat-list>
+        <mat-list-item *ngFor="let friend of friends | async" (click)="selected = friend">
+          <span>{{friend?.name}}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-sidenav>
+
+    <section class="content" fxFlex="50" fxFlexAlign="center">
+      <router-outlet></router-outlet>    
+    </section>
+  </mat-sidenav-container>
+</div>

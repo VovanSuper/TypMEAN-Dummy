@@ -5,10 +5,10 @@
   },
   "apps": [
     {
-      "root": "src",
-      "outDir": "dist",
+      "root": "Client/src",
+      "outDir": "Client/dist",
       "assets": [
-        "assets",
+        "assets/**/*",
         "favicon.ico"
       ],
       "index": "index.html",
@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "theme.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -36,11 +37,11 @@
   },
   "lint": [
     {
-      "project": "src/tsconfig.app.json",
+      "project": "Client/src/tsconfig.app.json",
       "exclude": "**/node_modules/**"
     },
     {
-      "project": "src/tsconfig.spec.json",
+      "project": "Client/src/tsconfig.spec.json",
       "exclude": "**/node_modules/**"
     },
     {
@@ -76,5 +77,8 @@
     "service": {
       "spec": false
     }
+  },
+  "warnings": {
+    "typescriptMismatch": false
   }
 }

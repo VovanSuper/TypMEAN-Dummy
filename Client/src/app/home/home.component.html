@@ -1,0 +1,26 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column">
+
+  <div fxFlex="1 1 100">
+    <h1>This is first demo of Flex base layout</h1>
+  </div>
+  <div fxFlex="1 1 100">
+    <p>You can check the responsiveness of the divs (shoud layout properly)</p>
+  </div>
+  <br>
+
+  <mat-card fxFlex="1 1 100%" fxFill>
+    <mat-card-header>
+      <h3>{{selected?.name}}</h3>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxFlex>
+        <div fxFlex="1 5 auto">{{selected?.name}}</div>
+        <i>{{selected?.age}}</i>
+      </div>
+      <div fxFlex #selected>
+        <span *ngFor="let events of selected?.participating"></span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

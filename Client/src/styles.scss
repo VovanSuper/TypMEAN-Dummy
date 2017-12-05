@@ -1,0 +1,26 @@
+// @import '~@angular/material/prebuilt-themes/pink-bluegrey';
+@import url('//fonts.googleapis.com/css?family=Lato');
+@font-face {
+    font-family: 'BadScriptRegular';
+    src: url('assets/fonts/BadScriptRegular.eot');
+    src: url('assets/fonts/BadScriptRegular.eot?#iefix') format('embedded-opentype'),
+        url('assets/fonts/BadScriptRegular.woff') format('woff'),
+        url('assets/fonts/BadScriptRegular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+}
+body {
+    font-family: 'Lato', 'Roboto', sans-serif;
+}
+
+html, body {
+    height: 100vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-size: 18px;
+}
+p {
+    font-size: 2rem;
+}
