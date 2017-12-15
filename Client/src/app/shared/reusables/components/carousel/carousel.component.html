@@ -1,0 +1,11 @@
+<ng-container *ngIf="slidesPaths && slidesPaths.length > 0">
+  <ngx-siema [options]="options">
+    <ngx-siema-slide *ngFor="let slideP of slidesPaths">
+      <img [src]="slideP">
+    </ngx-siema-slide>
+  </ngx-siema>
+  <div class="btn-holder">
+    <mat-icon class="left" (click)="prevSlide()">keyboard_arrow_left</mat-icon>
+    <mat-icon class="right" (click)="nextSlide()">keyboard_arrow_right</mat-icon>
+  </div>
+</ng-container>

@@ -1,0 +1,34 @@
+<div class="container">
+  <form [formGroup]="signinForm" (ngSubmit)="signIn()" novalidate autocomplete="false">
+
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label" for="name">User Name: </label>
+      <div class="col-md-8">
+        <input class="form-control" type="text" id="username" placeholder="User name" formControlName="username" />
+      </div>
+      <em *ngIf="!validatefield(username)">User name cannot be less the 4 letters</em>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label" for="password">Password: </label>
+      <div class="col-md-8">
+        <input class="form-control" type="password" id="password" placeholder="Password" formControlName="password" />
+      </div>
+      <em *ngIf="!validatefield(password)">Please provide proper password</em>
+    </div>
+
+    <div class="form-group row">
+      <div class="offset-md-4 col-md-4">
+        <button mat-raised-button color="primary" [disabled]="signinForm.invalid || signinForm.untouched">
+          <span>Sign in</span>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="offset-sm-4 col-sm-4">
+        OR &nbsp;
+        <a routerLink="/auth/signup">Sign UP</a>
+      </div>
+    </div>
+  </form>
+</div>

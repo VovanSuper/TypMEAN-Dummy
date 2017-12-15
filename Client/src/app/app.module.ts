@@ -1,19 +1,35 @@
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app/';
-import { HomeComponent } from './home/home.component';
-import { SharedModule } from './shared/shared.module';
+import { NgxSiemaModule } from 'ngx-siema';
+import { FacebookModule } from 'ngx-facebook';
+
+import { SharedServicesModule, CommonDeptsModule, EnvironmentsModule, ReusablesModule } from './shared/';
+import { AppRoutes } from './app.routes';
+import { AppComponent } from './app/app.component';
+import { AuthModule } from './auth/';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { UsersModule } from './users/';
+import { EventsModule } from './events/';
+import { HomeComponent } from './home/';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
-    SharedModule.forRoot(),    
-    AppRoutingModule
+    CommonDeptsModule,
+    NgxSiemaModule.forRoot(),
+    SharedServicesModule.forRoot(),
+    EnvironmentsModule.forRoot(),
+    FacebookModule.forRoot(),
+    ReusablesModule,
+    AuthModule,
+    AppRoutes,
+    EventsModule,
+    UsersModule
   ],
   bootstrap: [AppComponent]
 })

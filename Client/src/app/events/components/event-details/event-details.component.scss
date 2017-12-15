@@ -1,0 +1,12 @@
+.event-details {
+  .cursor-hand {
+    cursor: pointer;
+  }
+  .cursor-hand:hover {
+    background-color: red;
+    color: darkorchid;
+  }
+  .card {
+    min-width: 20rem;
+  }
+}

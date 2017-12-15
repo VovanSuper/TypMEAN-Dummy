@@ -1,0 +1,29 @@
+<section class="container" fxLayout="row" fxLayoutGap=".5rem">
+  <div *ngIf="isLoggedIn; then logedInBlock else notLogedInBlock"></div>
+
+  <ng-template #logedInBlock>
+    <div class="col-6">Hello, {{currentUser?.name}}</div>
+    <div class="col-6">
+      <button class="btn" mat-raised-button color="warning" (click)="logOut()">
+        <mat-icon>highlight_off</mat-icon>
+        <span class="hidden-sm-down">Log out</span>
+      </button>
+      <!-- <img [src]="currentUser?.avatar || '//portalweb.investigacionesmedicas.com/img/ico_paciente.png'" 
+        [alt]="currentUser?.name"
+        class="img img-responsive rounded" /> -->
+    </div>
+  </ng-template>
+
+  <ng-template #notLogedInBlock>
+    <mat-icon>supervisor_account</mat-icon>
+    <div class="col-6">
+      <button class="btn" mat-raised-button color="primary" (click)="goToLogIn()">
+        <mat-icon>input</mat-icon>
+        <span class="hidden-sm-down">Log in</span>
+      </button>
+      <!-- <img [src]="currentUser?.avatar || '//portalweb.investigacionesmedicas.com/img/ico_paciente.png'" 
+        [alt]="currentUser?.name"
+        class="img img-responsive rounded" /> -->
+    </div>
+  </ng-template>
+</section>

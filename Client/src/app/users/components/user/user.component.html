@@ -1,0 +1,14 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{user.name}}</mat-card-title>
+    <!-- <mat-card-subtitle>Be my partner</mat-card-subtitle> -->
+  </mat-card-header>
+  <img mat-card-image src="//freeiconspng.com/uploads/head-icon-14.png" />
+  <mat-card-content>
+    {{user.name}}
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-button color="accent" [routerLink]="['/users', user.id, 'details']" role="button" aria-pressed="false">Details</a>
+  </mat-card-actions>
+</mat-card>

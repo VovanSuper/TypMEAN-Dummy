@@ -11,17 +11,17 @@
     "keepAlive": 5000,
     "connectTimeoutMS": 5000,
     "entities": [
-        "data/src/entity/**/*.ts"
+        "Server/data/entities/**/*.ts"
     ],
     "migrations": [
-        "data/src/migration/**/*.ts"
+        "Server/data/migrations/**/*.ts"
     ],
     "subscribers": [
-        "data/src/subscriber/**/*.ts"
+        "Server/data/subscriber/**/*.ts"
     ],
     "cli": {
-        "entitiesDir": "data/src/entity",
-        "migrationsDir": "data/src/migration",
-        "subscribersDir": "data/src/subscriber"
+        "entitiesDir": "Server/data/entities",
+        "migrationsDir": "Server/data/migrations",
+        "subscribersDir": "Server/data/subscribers"
     }
 }

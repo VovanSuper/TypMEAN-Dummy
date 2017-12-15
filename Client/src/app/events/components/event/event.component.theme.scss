@@ -1,0 +1,13 @@
+@import '~@angular/material/theming';
+
+@mixin event-card-theme($theme) {
+  // Extract whichever individual palettes you need from the theme.
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  // Use mat-color to extract individual colors from a palette as necessary.
+  .event-card {
+    background-color: mat-color($primary, A100);
+    border-color: mat-color($accent, A50);
+  }
+}

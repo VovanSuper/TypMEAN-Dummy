@@ -1,0 +1,20 @@
+em { 
+  float: left;
+  color: #600;
+  font-size: .5rem;
+}
+
+input.error {
+  background-color: #cf9ba0;
+  border-color: #600 ;    
+}
+::-webkit-input-placeholder.error { color: #cf9ba0 ; }
+:-moz-placeholder.error { color: #cf9ba0 ; }
+::-moz-placeholder.error {color: #cf9ba0 ; }
+:ms-input-placeholder.error { color: #cf9ba0 ; }
+
+button[disabled] {
+  border: 1px solid #666 ;
+  background-color: #ccc ;
+  color: #666;
+}

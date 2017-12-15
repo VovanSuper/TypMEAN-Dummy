@@ -8,6 +8,7 @@ $mpis-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 // The warn palette is optional (defaults to red).
 $mpis-app-warn:    mat-palette($mat-red);
 
+$mpis-app-background: mat-palette($mat-grey, 300);
 // Create the theme object (a Sass map containing all of the palettes).
 $mpis-app-theme: mat-dark-theme($mpis-app-primary, $mpis-app-accent, $mpis-app-warn);
 

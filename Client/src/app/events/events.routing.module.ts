@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EventRouteValidService, EventsResolverService, AuthGuard } from '../shared/services/';
+import { EventRouteValidService, EventsResolverService, AuthGuard } from '../shared/module/services/';
 
 import {
   EventDetailsComponent,

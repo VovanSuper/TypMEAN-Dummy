@@ -1,0 +1,60 @@
+.btn-holder {
+  display: flex;
+  position: absolute;
+  top: 2rem;
+  text-align: center;
+  vertical-align: middle;
+  justify-content: space-around;
+  width: 100%;
+
+  mat-icon {
+    cursor: pointer;
+    font-size: 7rem;
+    color: rgba(189, 152, 42, 0.2);
+    transform: translateY(3rem);
+    
+    &.left {
+      transform: translate(-5rem, 3rem);
+    }
+  }
+}
+
+mat-card {
+  mat-card-header {
+    h3 {
+      text-align: center;
+    }
+  }
+  mat-card-content {
+    text-align: center;
+  }
+}
+
+ngx-siema {
+  // display: flex;
+  // justify-content: center;
+  // max-width: 80%;
+  max-height: 15rem;
+  overflow: hidden;
+  // margin: 0 auto;
+  
+  img {
+    max-height: 15rem;
+    margin: 0 auto;
+  }
+
+  div.siema {
+    max-height: 15rem !important;
+    overflow: hidden;
+  }
+}
+
+@media screen and (min-height: 480px) {
+  ngx-siema {
+    max-height: 20rem;
+
+    img {
+      max-height: 20rem;
+    }
+  }
+}

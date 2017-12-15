@@ -1,0 +1,14 @@
+.event-card {
+  width: 400px;
+}
+
+.event-card-header-image {
+  background-image: url('//downloadclipart.net/large/2361-olympic-sports-athletics-pictogram-design.png');
+  
+}
+img[mat-card-image] {
+  max-height: 2rem;
+  max-width: 2rem;
+  // border: 1px solid salmon;
+  // border-radius: 1rem;
+}

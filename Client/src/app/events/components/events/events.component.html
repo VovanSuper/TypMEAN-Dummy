@@ -1,3 +1,5 @@
-<p>
-  events works!
-</p>
+<div fxLayout="row" fxLayoutWrap fxLayoutGap="1rem" fxLayoutAlign="start center">
+  <ng-container *ngFor="let event of events">
+    <app-event [event]="event"></app-event>
+  </ng-container>
+</div>

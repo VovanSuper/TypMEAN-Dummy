@@ -1,0 +1,11 @@
+<section fxFlex="100" 
+  fxLayout="row" 
+  fxLayout.xs="column" 
+  fxLayoutGap="2rem" 
+  fxLayoutGap.lt-sm="1rem" 
+  fxLayoutAlign="start center"
+  fxLayoutWrap="wrap">
+  <ng-container *ngFor="let user of users">
+    <app-user [user]="user"></app-user>
+  </ng-container>
+</section>

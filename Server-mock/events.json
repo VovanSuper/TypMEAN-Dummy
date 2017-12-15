@@ -7,7 +7,11 @@
                 "city": "Espoo",
                 "address": "Kruununtie, 3"
             },
+            "startTime": "13:30",
+            "endTime": "13:30",
             "date": "25/11/2017",
+            "createdBy": "1",
+            "createdAt": "11/11/2017",
             "participants": [
                 "1",
                 "2"
@@ -20,20 +24,28 @@
                 "city": "Espoo",
                 "address": "Kruununtie, 3"
             },
-            "date": "11/1/2017",
+            "startTime": "13:30",
+            "endTime": "13:30",
+            "date": "11/12/2017",
+            "createdBy": "1",
+            "createdAt": "11/11/2017",
             "participants": [
                 "1",
                 "3"
             ]
         },
         {
-            "id": 1,
-            "name": "Lets play football!",
+            "id": 3,
+            "name": "Lets play hockey!",
             "place": {
                 "city": "Kuopio",
-                "address": "Sarikiniementie, 13"
+                "address": "Sarkiniementie, 13"
             },
-            "date": "17/9/2018",
+            "date": "17/1/2018",
+            "startTime": "13:30",
+            "endTime": "13:30",
+            "createdBy": "1",
+            "createdAt": "11/11/2017",
             "participants": [
                 "1",
                 "2",

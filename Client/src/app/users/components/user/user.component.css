@@ -1,0 +1,9 @@
+.card {
+  min-width: 20rem;
+}
+img[mat-card-image] {
+  max-height: 2rem;
+  max-width: 2rem;
+  border: 1px solid salmon;
+  border-radius: 1rem;
+}

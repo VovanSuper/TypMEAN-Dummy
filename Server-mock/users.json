@@ -3,14 +3,16 @@
         {
             "id": 1,
             "name": "Vovan_Super",
+            "username": "Vovan_Super",
             "age": 34,
+            "email": "vovansuper@mail.ru",
             "residence": {
                 "country": "Russian Federation",
                 "city": "Kaluga",
                 "Motor": "blvd, 3-13"
             },
             "registered": "21/11/2015",
-            "interests": "Footbal, Hockey, Boxing",
+            "interests": ["Football", "Hockey", "boxing"],
             "paricipating": [
                 "1",
                 "2"
@@ -19,14 +21,16 @@
         {
             "id": 2,
             "name": "Manne Kaila",
+            "username": "Manne_Kaila",
             "age": 38,
+            "email": "manne.kaila@mail.ru",
             "residence": {
                 "country": "Finland",
                 "city": "Kuopio",
                 "Motor": "Sarkiniementie, 18"
             },
             "registered": "21/9/2018",
-            "interests": "Football, Hockey",
+            "interests": ["Football", "Hockey"],
             "paricipating": [
                 "1",
                 "2"
@@ -35,6 +39,7 @@
         {
             "id": 3,
             "name": "Mechalych",
+            "username": "Rezina",
             "age": 33,
             "residence": {
                 "country": "Finland",
@@ -42,11 +47,11 @@
                 "Motor": "Kruununtie, 3"
             },
             "registered": "21/11/2015",
-            "interests": "Football",
+            "interests": ["Football"],
             "paricipating": [
                 "1",
                 "3"
             ]
         }
     ]
-}
+}{"username":"Vovan_Super","password":"Triton185722!"}

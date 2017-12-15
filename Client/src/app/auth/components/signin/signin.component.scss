@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  
+  &>* {
+    width: 100%;
+  }
+}
+
+em { 
+  float: right;
+  color: #700 ;    
+  padding-left: 1rem;
+  font-size: .4rem;
+}
+
+input.error {
+  background-color: #cf9ba0 ;
+  border-color: #700 ;    
+}
+::-webkit-input-placeholder.error { color: #cf9ba0 ; }
+:-moz-placeholder.error { color: #cf9ba0 ; }
+::-moz-placeholder.error {color: #cf9ba0 ; }
+:ms-input-placeholder.error { color: #cf9ba0 ; }
+
+button[disabled] {
+  border: 1px solid #777 ;
+  background-color: #ccc ;
+  color: #777;
+}

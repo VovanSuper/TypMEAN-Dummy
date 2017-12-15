@@ -1,0 +1,20 @@
+<mat-sidenav mode="side" [opened]="isMenuOpened" #sideNav>
+  <mat-tab-group>
+    <mat-tab label="Users">
+      <mat-nav-list>
+        <mat-list-item *ngFor="let user of users" (click)="sideNav.toggle()" 
+          [routerLink]="['/users', user['id'], 'details']" >
+          <span>{{user?.name}}</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-tab>
+    <mat-tab label="Events">
+      <mat-nav-list>
+        <mat-list-item *ngFor="let event of events" (click)="sideNav.toggle()"
+          [routerLink]="['/events', event['id'], 'details']" >
+          <span>{{event?.name}}</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-tab>
+  </mat-tab-group>
+</mat-sidenav>

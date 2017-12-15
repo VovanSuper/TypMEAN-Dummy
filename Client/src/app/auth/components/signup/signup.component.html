@@ -1,0 +1,140 @@
+<div class="container">
+  <form [formGroup]="registrationForm" (ngSubmit)="submit()" novalidate autocomplete="false">
+
+    <h4>Registration</h4>
+
+    <em *ngIf="!validatefield(name)">Name is invalid</em>
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label" for="name">Name: </label>
+      <div class="col-md-8">
+        <input [ngClass]="{'error' : !validatefield(name) }"
+          class="form-control" 
+          type="text" 
+          id="name"
+          name="name" 
+          placeholder="User name" 
+          formControlName="name" />
+      </div>
+    </div>
+
+    <em *ngIf="!validatefield(username)">Username is invalid</em>
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label" for="username">User Name: </label>
+      <div class="col-md-8">
+        <input [ngClass]="{'error' : !validatefield(username) }" 
+          class="form-control" 
+          type="text" 
+          id="username" 
+          name="username"
+          placeholder="User name" 
+          formControlName="username" />
+      </div>
+    </div>
+
+
+    <em *ngIf="!validatefield(email)">Email invalid</em>
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label" for="email">Email: </label>
+      <div class="col-md-8">
+        <input [ngClass]="{'error' : !validatefield(email) }" 
+          class="form-control" 
+          type="email" 
+          id="email" 
+          name="email" 
+          placeholder="User email" 
+          formControlName="email" />
+      </div>
+    </div>
+
+    <!-- <em *ngIf="!validatefield(secondaryemail)">Email invalid</em>
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label" for="secondaryemail">Secondary Email: </label>
+      <input [ngClass]="{'error' : !validatefield(secondaryemail) }" 
+        formControlName="secondaryemail" 
+        type="email" 
+        name="secondaryemail"
+        id="secondaryemail"
+        placeholder="Secondary Email" />
+    </div> -->
+
+
+    <em *ngIf="!validatefield(password)">Password invalid</em>
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label" for="password">Password: </label>
+      <div class="col-md-8">
+        <input [ngClass]="{'error' : !validatefield(password) }" 
+          class="form-control" 
+          type="password" 
+          id="password" 
+          name="password" 
+          placeholder="User password" 
+          formControlName="password" />
+      </div>
+    </div>
+
+    <em *ngIf="!validatefield(repassword)">Password invalid</em>
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label" for="repassword">Password again: </label>
+      <div class="col-md-8">
+        <input [ngClass]="{'error' : !validatefield(repassword) }" 
+        class="form-control" 
+        type="password" 
+        id="repassword" 
+        name="repassword" 
+        placeholder="User password" 
+        formControlName="repassword" />
+      </div>
+    </div>
+
+    <em *ngIf="!validatefield(workplace)">Work place is invalid</em>
+    <div class="form-group row">
+      <label class="col-md-4 col-form-label" for="workplace">Workplace: </label>
+      <div class="col-md-8">
+        <input [ngClass]="{'error' : !validatefield(workplace) }" 
+          class="form-control" 
+          type="text" 
+          id="workplace" 
+          name="workplace" 
+          placeholder="Work place" 
+          formControlName="workplace" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-12">
+        <div class="radio" *ngFor="let gen of genders">
+          <label>
+            <input type="radio" name="gender" id="gender" formControlName="gender" [value]="gen">
+            {{gen}}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="file-upload">
+        <label class="control-label col-sm-2" for="fileInput">Image:</label>
+        <div class="col-sm-10">
+          <input #fileInput type="file" (change)="change($event)" id="fileInput" name="fileInput" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="offset-4 col-4">
+        <button type="submit" class="btn btn-primary" 
+          [disabled]="registrationForm.invalid || registrationForm.untouched">
+          <i class="fa fa-user-plus" aria-hidden="true"></i>
+          <span class="hidden-sm-down">Sign in</span>
+        </button>
+      </div>
+      <div class="col-3 mr-1">
+        <button type="button" class="btn btn-warning" 
+          [disabled]="registrationForm.untouched" (click)="reset()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+          <span class="hidden-sm-down">Clear</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

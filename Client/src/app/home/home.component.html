@@ -1,26 +1,33 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column">
+<section fxLayout="column" fxLayoutGap=".4rem" fxFill>
+  <app-carousel fxHide.xs fxHide.lt-xs></app-carousel>
 
-  <div fxFlex="1 1 100">
-    <h1>This is first demo of Flex base layout</h1>
-  </div>
-  <div fxFlex="1 1 100">
-    <p>You can check the responsiveness of the divs (shoud layout properly)</p>
-  </div>
-  <br>
+  <div *ngIf="isLoggedIn; then wellcomeBlock else loginOptionsBlock"></div>
 
-  <mat-card fxFlex="1 1 100%" fxFill>
-    <mat-card-header>
-      <h3>{{selected?.name}}</h3>
-    </mat-card-header>
-    <mat-card-content>
-      <div fxFlex>
-        <div fxFlex="1 5 auto">{{selected?.name}}</div>
-        <i>{{selected?.age}}</i>
-      </div>
-      <div fxFlex #selected>
-        <span *ngFor="let events of selected?.participating"></span>
-      </div>
-    </mat-card-content>
-  </mat-card>
+  <ng-template #wellcomeBlock>
+    <h2>Wellcome, {{currentUser}}</h2>
+  </ng-template>
 
-</div>
+  <ng-template #loginOptionsBlock>
+    <mat-card fxFlex="1 1 100%" fxFill>
+      <mat-card-header>
+        <h3>Login </h3>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Please, use one of the options below to login...</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="warning" routerLink="/auth/signin">Login</a>
+        <span fxFlex></span>
+        <button mat-button color="warning" (click)="loginFb()">
+          <i class="fb-btn-logo"></i>
+          Facebook
+        </button>
+        <button mat-button color="warning" (click)="fbGetProfile()">
+          <i class="fb-btn-logo"></i>
+          Profile
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </ng-template>
+
+</section>
