@@ -4,7 +4,7 @@ interface NodeModule {
   id: string;
 }
 
-// declare var FB: any;
+declare let FB: any;
 
 declare let app: {
   ENV: string,
