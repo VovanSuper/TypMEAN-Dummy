@@ -3,17 +3,13 @@ import { resolve } from 'path';
 import { Controller, Get, Post, Body, Param, NotFoundException, Inject } from '@nestjs/common';
 import { ServerRequest } from 'http';
 import { EventDto } from '../../models/event.dto';
-import { EventsService } from '../../services/';
-import { Event } from '../../../../data/entities/';
+import { EventsService } from '../services/events.service';
+import { Event } from '../../../data/entities/Event';
 
 @Controller('events')
 export class EventsController {
 
-  constructor(public eventsSvc: EventsService) {
-    console.log(`[EventsCtrl]:: param eventsSvc --- ${this.eventsSvc}`)
-    console.dir(this.eventsSvc === undefined)
-    console.dir(this.eventsSvc.repo === undefined)
-  }
+  constructor(public eventsSvc: EventsService) { }
 
   @Get()
   async getAll() {

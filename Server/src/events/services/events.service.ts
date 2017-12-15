@@ -1,10 +1,10 @@
 import { Component, Inject } from '@nestjs/common';
 // import { EventRepository } from '../../../../data/repositories/';
-import { Container, Service } from 'typedi';
-import { MongoRepository, getMongoManager, getMongoRepository } from 'typeorm';
+// import { Container, Service } from 'typedi';
+import { MongoRepository, getMongoRepository } from 'typeorm';
 import { OrmRepository } from 'typeorm-typedi-extensions';
 
-import { Event } from '../../../../data/entities';
+import { Event } from '../../../data/entities';
 
 @Component()
 export class EventsService {
@@ -15,6 +15,6 @@ export class EventsService {
 
   constructor() {
     this.repo  = getMongoRepository(Event);
-    console.log('EventsService ctor.....');
+    console.log('EventsService ctor..... ');
   }
 }
