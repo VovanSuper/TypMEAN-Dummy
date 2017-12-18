@@ -12,6 +12,7 @@
   "exclude": [
     "test.ts",
     "**/*.spec.ts",
-    "node_modules/@types/fb"
+    "node_modules/@types/fb",
+    "node_modules/@types/**/*"
   ]
 }

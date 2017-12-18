@@ -1,15 +1,19 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './services/users.service';
-import { AuthService } from './services/auth.service';
+import { UsersService, AuthService } from './services/';
+import { FacebookStrategy, JwtStrategy } from "./services/passport";
 
 @Module({
   components: [
+    FacebookStrategy,
+    JwtStrategy,
     AuthService,
     UsersService
   ],
   exports: [
+    FacebookStrategy,
+    JwtStrategy,
+    UsersService,
     AuthService,
-    UsersService
   ]
 })
 export class SharedModule { }

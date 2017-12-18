@@ -1,0 +1,35 @@
+base:
+  port: 80,
+  headOptions:
+    title: 'MEAN2 Dummy (prod)'
+    desc:  'A sample mean (Angular2, node.js, express.js, mongodb) project'
+    author: 'Vladimir Ovsyukov \<me@ovsyukov.info\>'
+    keywords: 'Mean 2, Angular, node.js, express.js, mongodb, mongoose, gulp.js, gulp4, webpack, babel.js, typescript'
+    baseUrl: '/'
+
+paths:
+  clientSrc: 'client'
+  appFilesPaths: 
+    - 'app.js' 
+    - 'db.js'
+    - 'boot.js'
+    - 'setup.js'
+    - 'utils/**/*.js'
+    - 'routes/**/*.js'
+    - 'models/**/*.js'
+    - 'middlewares/**/*.js'
+  clientDist: 'wwwroot/dist'
+  appDist: 'wwwroot'
+  testsSrc: 'tests/**/*.spec.js'
+  webpackFile: 'webpack.config.js'
+  indexPath: 'wwwroot/dist/index.html'
+
+database:
+  host: 'mongodb://test:test@ds048279.mlab.com:48279/event_man'
+  creds:
+    user: 'test'
+    password: 'test'
+
+secrets:
+  jwtStr: 's0meEvenM0reSupperS9cur9Str1ng'
+

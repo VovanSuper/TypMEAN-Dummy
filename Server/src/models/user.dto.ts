@@ -4,6 +4,7 @@ export class UserDto {
   readonly id?: number | string | ObjectID | null;
   readonly fb_id?: number | string | null;
   readonly fb_token?: string;
+  readonly fb_email?: string;
   readonly name: string;
   readonly username?: string;
   readonly email?: string;

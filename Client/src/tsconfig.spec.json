@@ -25,5 +25,8 @@
         "name": "@angular/language-service"
       }
     ]
-  }
+  },
+  "exclude": [
+    "node_modules/@types/**/*.*"
+  ]
 }

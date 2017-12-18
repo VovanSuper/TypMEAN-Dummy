@@ -1,0 +1,37 @@
+base:
+  port: 8080
+  headOptions:
+    title: 'MPIS (dev)'
+    desc:  'A sample mean (Angular2, node.js, express.js, mongodb) project'
+    keywords: 'Mean 2, Angular, node.js, express.js, mongodb, mongoose, gulp.js, gulp4, webpack, babel.js, typescript'
+    author: 'Vladimir Ovsyukov (me@ovsyukov.info)'
+
+paths:
+  clientSrc: 'client'
+  appFilesPaths: 
+    - 'app.js' 
+    - 'db.js'
+    - 'boot.js'
+    - 'setup.js'
+    - 'utils/**/*.js'
+    - 'routes/**/*.js'
+    - 'models/**/*.js'
+    - 'middlewares/**/*.js'
+  clientDist: 'wwwroot/dist'
+  appDist: 'wwwroot'
+  testsSrc: 'tests/**/*.spec.js'
+  webpackFile: 'webpack.config.dev.js'
+  indexPath: 'wwwroot/dist/index.html'
+
+database:
+  host: 'mongodb://test:test@ds048279.mlab.com:48279/event_man'
+  db: 'event_man'
+  creds:
+    user: 'test'
+    password: 'test'
+
+secrets:
+  jwtStr: 's0meSupperS9cur9Str1ng'
+  fb:
+    appId: '1825033960857449'
+    appSecret: '7407f9034980d256f2ab85162925ab77'

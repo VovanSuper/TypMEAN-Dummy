@@ -24,16 +24,12 @@ export class UsersModule implements NestModule {
   configure(consumer: MiddlewaresConsumer): void | MiddlewaresConsumer {
     consumer.apply(loggerMiddleware).forRoutes(UsersController);
 
-    consumer.apply(passport.authenticate('facebook', { session: false })).forRoutes([
-      { path: '/users', method: RequestMethod.POST },
-      { path: '/auth/facebook', method: RequestMethod.POST }
-    ]);
-
-    consumer.apply(passport.authenticate('jwt', { session: false })).forRoutes([
-      { path: '/users/:id', method: RequestMethod.DELETE },
-      { path: '/users/:id', method: RequestMethod.PATCH },
-      { path: '/users', method: RequestMethod.ALL },
-    ]);
+    consumer.apply(passport.authenticate('jwt', { session: false })).forRoutes(
+      // { path: '/users/:fb_id', method: RequestMethod.DELETE },
+      { path: '/users/:fb_id', method: RequestMethod.PATCH },
+      { path: '/users', method: RequestMethod.GET },
+      { path: '/users', method: RequestMethod.POST }
+    );
   }
 
 }

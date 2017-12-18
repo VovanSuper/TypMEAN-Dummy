@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { INestApplication } from '@nestjs/common';
 import { ApplicationModule } from './app.module';
-
+import { json, urlencoded } from 'body-parser';
 import * as cors from 'cors';
 import * as passport from 'passport';
 import { Container } from 'typedi';
@@ -29,8 +29,10 @@ createConnection(opts).then(async (connection: Connection) => {
   const app: Promise<INestApplication> = NestFactory.create(ApplicationModule);
 
   app.then(instance => {
-    instance.use(passport.initialize());
     instance.use(cors());
+    // instance.use(json());
+    // instance.use(urlencoded({ extended: false }));
+    // instance.use(passport.initialize({ userProperty: 'user' }));
 
     instance.listen(port, () => console.log(`Application is listening on port ${port}`))
   });
