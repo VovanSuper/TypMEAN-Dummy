@@ -2,25 +2,24 @@
   <form [formGroup]="signinForm" (ngSubmit)="signIn()" novalidate autocomplete="false">
 
     <div class="form-group row">
-      <label class="col-md-4 col-form-label" for="name">User Name: </label>
-      <div class="col-md-8">
-        <input class="form-control" type="text" id="username" placeholder="User name" formControlName="username" />
-      </div>
-      <em *ngIf="!validatefield(username)">User name cannot be less the 4 letters</em>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Enter your username" [formControl]="username" required>
+        <mat-error *ngIf="username.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
     </div>
 
     <div class="form-group row">
-      <label class="col-md-4 col-form-label" for="password">Password: </label>
-      <div class="col-md-8">
-        <input class="form-control" type="password" id="password" placeholder="Password" formControlName="password" />
-      </div>
-      <em *ngIf="!validatefield(password)">Please provide proper password</em>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Enter your password" [formControl]="password" required>
+        <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
     </div>
 
     <div class="form-group row">
       <div class="offset-md-4 col-md-4">
         <button mat-raised-button color="primary" [disabled]="signinForm.invalid || signinForm.untouched">
-          <span>Sign in</span>
+          <mat-icon>input</mat-icon>
+          <span class="hidden-sm-down">Log in</span>
         </button>
       </div>
     </div>

@@ -3,113 +3,43 @@
 
     <h4>Registration</h4>
 
-    <em *ngIf="!validatefield(name)">Name is invalid</em>
-    <div class="form-group row">
-      <label class="col-md-4 col-form-label" for="name">Name: </label>
-      <div class="col-md-8">
-        <input [ngClass]="{'error' : !validatefield(name) }"
-          class="form-control" 
-          type="text" 
-          id="name"
-          name="name" 
-          placeholder="User name" 
-          formControlName="name" />
-      </div>
-    </div>
 
-    <em *ngIf="!validatefield(username)">Username is invalid</em>
-    <div class="form-group row">
-      <label class="col-md-4 col-form-label" for="username">User Name: </label>
-      <div class="col-md-8">
-        <input [ngClass]="{'error' : !validatefield(username) }" 
-          class="form-control" 
-          type="text" 
-          id="username" 
-          name="username"
-          placeholder="User name" 
-          formControlName="username" />
-      </div>
-    </div>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Enter User name" [formControl]="name" />
+      <mat-error *ngIf="!validatefield(name)"></mat-error>
+    </mat-form-field>
 
 
-    <em *ngIf="!validatefield(email)">Email invalid</em>
-    <div class="form-group row">
-      <label class="col-md-4 col-form-label" for="email">Email: </label>
-      <div class="col-md-8">
-        <input [ngClass]="{'error' : !validatefield(email) }" 
-          class="form-control" 
-          type="email" 
-          id="email" 
-          name="email" 
-          placeholder="User email" 
-          formControlName="email" />
-      </div>
-    </div>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Enter User username" [formControl]="username" />
+      <mat-error *ngIf="!validatefield(username)"></mat-error>
+    </mat-form-field>
 
-    <!-- <em *ngIf="!validatefield(secondaryemail)">Email invalid</em>
-    <div class="form-group row">
-      <label class="col-md-4 col-form-label" for="secondaryemail">Secondary Email: </label>
-      <input [ngClass]="{'error' : !validatefield(secondaryemail) }" 
-        formControlName="secondaryemail" 
-        type="email" 
-        name="secondaryemail"
-        id="secondaryemail"
-        placeholder="Secondary Email" />
-    </div> -->
+    <mat-form-field>
+      <input type="email" matInput placeholder="Enter User email" [formControl]="email" />
+      <mat-error *ngIf="!validatefield(email)"></mat-error>
+    </mat-form-field>
 
+    <mat-form-field>
+      <input type="password" matInput placeholder="Enter User password" [formControl]="password" />
+      <mat-error *ngIf="!validatefield(password)"></mat-error>
+    </mat-form-field>
 
-    <em *ngIf="!validatefield(password)">Password invalid</em>
-    <div class="form-group row">
-      <label class="col-md-4 col-form-label" for="password">Password: </label>
-      <div class="col-md-8">
-        <input [ngClass]="{'error' : !validatefield(password) }" 
-          class="form-control" 
-          type="password" 
-          id="password" 
-          name="password" 
-          placeholder="User password" 
-          formControlName="password" />
-      </div>
-    </div>
+    <mat-form-field>
+      <input type="password" matInput placeholder="Enter password again" [formControl]="repassword" />
+      <mat-error *ngIf="!validatefield(repassword)"></mat-error>
+    </mat-form-field>
 
-    <em *ngIf="!validatefield(repassword)">Password invalid</em>
-    <div class="form-group row">
-      <label class="col-md-4 col-form-label" for="repassword">Password again: </label>
-      <div class="col-md-8">
-        <input [ngClass]="{'error' : !validatefield(repassword) }" 
-        class="form-control" 
-        type="password" 
-        id="repassword" 
-        name="repassword" 
-        placeholder="User password" 
-        formControlName="repassword" />
-      </div>
-    </div>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Enter work place" [formControl]="workplace" />
+      <mat-error *ngIf="!validatefield(workplace)"></mat-error>
+    </mat-form-field>
 
-    <em *ngIf="!validatefield(workplace)">Work place is invalid</em>
-    <div class="form-group row">
-      <label class="col-md-4 col-form-label" for="workplace">Workplace: </label>
-      <div class="col-md-8">
-        <input [ngClass]="{'error' : !validatefield(workplace) }" 
-          class="form-control" 
-          type="text" 
-          id="workplace" 
-          name="workplace" 
-          placeholder="Work place" 
-          formControlName="workplace" />
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <div class="col-12">
-        <div class="radio" *ngFor="let gen of genders">
-          <label>
-            <input type="radio" name="gender" id="gender" formControlName="gender" [value]="gen">
-            {{gen}}
-          </label>
-        </div>
-      </div>
-    </div>
+    <mat-radio-group>
+      <mat-radio-button *ngFor="let gen of genders" [formControl]="gender" [value]="gen">
+        {{gen}}
+      </mat-radio-button>
+    </mat-radio-group>
 
     <div class="form-group">
       <div class="file-upload">
@@ -120,21 +50,18 @@
       </div>
     </div>
 
-    <div class="form-group row">
-      <div class="offset-4 col-4">
-        <button type="submit" class="btn btn-primary" 
-          [disabled]="registrationForm.invalid || registrationForm.untouched">
-          <i class="fa fa-user-plus" aria-hidden="true"></i>
-          <span class="hidden-sm-down">Sign in</span>
-        </button>
-      </div>
-      <div class="col-3 mr-1">
-        <button type="button" class="btn btn-warning" 
-          [disabled]="registrationForm.untouched" (click)="reset()">
-          <i class="fa fa-times" aria-hidden="true"></i>
-          <span class="hidden-sm-down">Clear</span>
-        </button>
-      </div>
+    <div class="row">
+      <button mat-raised-button color="primary" type="submit" 
+        [disabled]="registrationForm.invalid || registrationForm.untouched">
+        <mat-icon>input</mat-icon>
+        <span class="hidden-sm-down">Log in</span>
+      </button>
+
+      <button type="button" class="btn btn-warning" [disabled]="registrationForm.untouched" (click)="reset()">
+        <mat-icon>clear</mat-icon>
+        <span class="hidden-sm-down">Clear</span>
+      </button>
     </div>
+    
   </form>
 </div>

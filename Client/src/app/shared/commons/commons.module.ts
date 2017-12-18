@@ -19,7 +19,8 @@ import {
   MatSlideToggleModule,
   MatTabsModule,
   MatToolbarModule,
-  MatChipsModule
+  MatChipsModule,
+  MatRadioModule
 } from '@angular/material';
 
 @NgModule({
@@ -42,6 +43,7 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatChipsModule,
+    MatRadioModule,
     FlexLayoutModule,
     NoopAnimationsModule
   ],
@@ -64,6 +66,7 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatChipsModule,
+    MatRadioModule,
     NoopAnimationsModule,
     FlexLayoutModule
   ]

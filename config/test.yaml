@@ -1,34 +1,21 @@
 base:
-  port: 8082,
+  port: 8080
   headOptions:
-    title: 'MEAN2 Dummy (test)'
-    desc:  'A sample mean (Angular2, node.js, express.js, mongodb) project'
-    author: 'Vladimir Ovsyukov <ovsyukov@yandex.com>'
-    keywords: 'Mean 2, Angular, node.js, express.js, mongodb, mongoose, gulp.js, gulp4, webpack, babel.js, typescript'
-    baseUrl: '/'
-
-paths:
-  clientSrc: 'client'
-  appFilesPaths: 
-    - 'app.js'
-    - 'db.js'
-    - 'boot.js'
-    - 'setup.js'
-    - 'utils/**/*.js'
-    - 'routes/**/*.js'
-    - 'models/**/*.js'
-    - 'middlewares/**/*.js'
-  clientDist: 'client'
-  appDist: 'server'
-  testsSrc: 'tests/specs/**/*.spec.js'
-  webpackFile: 'webpack.config.test.js'
-  indexPath: 'client/index.html'
+    title: 'MPIS (dev)'
+    desc:  'A sample typed mean (Angular5, nest.js, typeorm, mongodb) project'
+    keywords: 'Angular, node.js, nest.js, express.js, mongodb, typescript'
+    author: 'Vladimir Ovsyukov (me@ovsyukov.info)'
 
 database:
-  host: 'mongodb://test:test@ds048279.mlab.com:48279/event_man'
+  host: 'mlab host here'
+  port: 27017
+  db: 'dab_name'
   creds:
-    user: 'test'
+    username: 'test'
     password: 'test'
 
 secrets:
   jwtStr: 's0meSupperS9cur9Str1ng'
+  fb:
+    appId: '1825033960857449'
+    appSecret: 'SomeStirngWhichIsTheFacebookAppSecret'

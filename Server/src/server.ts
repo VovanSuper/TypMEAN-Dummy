@@ -4,6 +4,7 @@ import { ApplicationModule } from './app.module';
 import { json, urlencoded } from 'body-parser';
 import * as cors from 'cors';
 import * as passport from 'passport';
+import { get } from 'config';
 import { Container } from 'typedi';
 import { useContainer, createConnection, Connection, ConnectionOptions } from 'typeorm';
 import { User, Event } from '../data/entities/';
@@ -12,11 +13,11 @@ let port = parseInt(process.env.API_PORT) || 8080;
 
 const opts: ConnectionOptions = {
   type: 'mongodb',
-  host: 'ds042687.mlab.com',
-  port: 42687,
-  username: 'test',
-  password: 'test',
-  database: 'mpis',
+  host: get<string>('database.host'),
+  port: get<number>('database.port'),
+  username: get<string>('database.creds.username'),
+  password: get<string>('database.creds.password'),
+  database: get<string>('database.db'),
   synchronize: true,
   logging: true,
   logger: 'debug',

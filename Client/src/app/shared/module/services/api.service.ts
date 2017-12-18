@@ -146,30 +146,30 @@ export class ApiService {
   }
 
   private getUsersJson(): Promise<{ operationStatus: string, data?: IUser[], err?: string }> {
-    return this.http.get(`${this.vars.usersUrl}`, this.baseOpts)
+    return this.http.get(`${this.vars.usersUrl}`, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
   private getUserByIdJson(id: string): Promise<{ operationStatus: string, data?: IUser, err?: string }> {
-    return this.http.get(`${this.vars.usersUrl}/${id}`, this.baseOpts)
+    return this.http.get(`${this.vars.usersUrl}/${id}`, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
   private deleteUserByIdJson(id: string): Promise<{ operationStatus: string, err?: string }> {
-    return this.http.delete(`${this.vars.usersUrl}/${id}`, this.baseOpts)
+    return this.http.delete(`${this.vars.usersUrl}/${id}`, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
   private createUserJson(user: IUser | string)
     : Promise<{ operationStatus: string, data?: IUser | IUser & { [token: string]: any }, err?: string }> {
-    return this.http.post(`${this.vars.usersUrl}`, user, this.baseOpts)
+    return this.http.post(`${this.vars.usersUrl}`, user, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
   private changeUserByIdJson(id: string, newUser: IUser)
     : Promise<{ operationStatus: string, data?: IUser, err?: string }> {
-    return this.http.put(`${this.vars.eventsUrl}/${id}`, newUser, this.baseOpts)
+    return this.http.put(`${this.vars.eventsUrl}/${id}`, newUser, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
   private patchUserByIdJson(id: string, newUser: IUser)
     : Promise<{ operationStatus: string, data?: IUser, err?: string }> {
-    return this.http.patch(`${this.vars.usersUrl}/${id}`, newUser, this.baseOpts)
+    return this.http.patch(`${this.vars.usersUrl}/${id}`, newUser, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
 

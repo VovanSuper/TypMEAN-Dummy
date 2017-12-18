@@ -55,7 +55,8 @@ export class HttpHelpersService {
   }
   private reloadToken() {
     let token = this.userStoreSvc.getToken();
-    if (token != null) {
+
+    if (token && token !== undefined) {
       this.token = this.userStoreSvc.getToken();
     }
   }

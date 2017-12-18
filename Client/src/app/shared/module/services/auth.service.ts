@@ -3,8 +3,7 @@ import { UserStoreService } from './user-store.service';
 import { Http, Response } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import { IUser } from '../../interfaces/';
-import { IToastr, HttpHelpersService } from './';
-// import { TOASTR_TOKEN } from './tokens.libs';
+import { HttpHelpersService } from './';
 import { EnvVariables, IEnvironmentVariables } from '../../environment/';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -18,7 +17,6 @@ export class AuthService {
     private http: Http,
     private httpHelpers: HttpHelpersService,
     @Inject(EnvVariables) private vars: IEnvironmentVariables
-    // , @Inject(TOASTR_TOKEN) private toastr: IToastr
   ) {
     this.init();
   }

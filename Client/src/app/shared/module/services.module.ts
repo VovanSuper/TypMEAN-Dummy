@@ -1,4 +1,5 @@
 import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 import {
   ApiService,
@@ -20,7 +21,7 @@ import {
 @NgModule({})
 export class SharedServicesModule {
   constructor( @Optional() @SkipSelf() self: SharedServicesModule) {
-    if (self) throw new Error('Should only be imported in App.module')
+    if (self) throw new Error('[SharedServicesModule] Should only be imported in App.module')
   }
 
   static forRoot(): ModuleWithProviders {
@@ -40,7 +41,8 @@ export class SharedServicesModule {
         { provide: UserStoreService, useClass: UserStoreService },
         { provide: AuthService, useClass: AuthService },
         { provide: AuthGuard, useClass: AuthGuard },
-        { provide: AnonymousGuard, useClass: AnonymousGuard }
+        { provide: AnonymousGuard, useClass: AnonymousGuard },
+        FormBuilder
       ]
     };
   }

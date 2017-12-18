@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { IEvent, IUser } from '../../../shared/interfaces/';
-import { ApiService } from '../../../shared/module/services/';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+
+import { IEvent, IUser } from '../../../shared/interfaces/';
+import { ApiService } from '../../../shared/module/services/';
 
 @Component({
   templateUrl: 'event-details.component.html',
@@ -19,7 +20,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private actRoute: ActivatedRoute,
     private api: ApiService
-    // , @Inject(TOASTR_TOKEN) private toastr: IToastr
   ) { }
 
   goBack() {
@@ -30,7 +30,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.actRouteSubscription = this.actRoute.params.subscribe(param => {
       this.api.getEventById(param['id'])
         .then(evnt => this.event = evnt)
-        .then(resp => this.api.getUserById(resp.createdBy))
+        .then(ev => this.api.getUserById(ev.createdBy))
         .then(usr => this.eventCreator = usr)
         .catch(err => {
           console.error(err);

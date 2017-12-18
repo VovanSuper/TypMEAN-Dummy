@@ -5,5 +5,7 @@ export const Variables = {
   eventsUrl         : `${hostUrl}/events`,
   usersUrl          : `${hostUrl}/users`,
   loginUrl          : `${hostUrl}/login`,
+  authUrl           : `${hostUrl}/auth`,
+  authFbUrl         : `${hostUrl}/auth/facebook`,
   forgotPasswordUrl : `${hostUrl}/forgotpassword`
 }

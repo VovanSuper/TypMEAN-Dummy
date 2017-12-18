@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { ValidateField, Validation } from '../../Validations/';
 import { ApiService, AuthService } from '../../../shared/module/services/';
@@ -30,8 +30,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private apiSvc: ApiService,
     private authSvc: AuthService,
-    private router: Router
-    //  , @Inject(TOASTR_TOKEN) private toastr: IToastr
+    private router: Router,
+    private fb: FormBuilder
   ) {
     this.validatefield = ValidateField;
   }
@@ -78,7 +78,7 @@ export class SignupComponent implements OnInit {
     ]);
     this.gender = new FormControl(this.genders[2]);
 
-    this.registrationForm = new FormGroup({
+    this.registrationForm = this.fb.group({
       'name': this.name,
       'username': this.username,
       'email': this.email,

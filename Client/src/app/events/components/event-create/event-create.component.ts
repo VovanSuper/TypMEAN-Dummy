@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { IUser } from '../../../shared/interfaces/';
 import { ApiService } from '../../../shared/module/services/';
 
 @Component({
   templateUrl: 'event-create.component.html',
-  styleUrls: ['event-create.component.css']
+  styleUrls: ['event-create.component.scss']
 })
 
 export class EventCreateComponent implements OnInit {
@@ -18,7 +18,7 @@ export class EventCreateComponent implements OnInit {
   description: FormControl;
   participants: FormArray;
 
-  constructor(private api: ApiService, private router: Router) { }
+  constructor(private api: ApiService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit() {
     let now = new Date().toLocaleDateString();
@@ -29,7 +29,7 @@ export class EventCreateComponent implements OnInit {
     this.participants = new FormArray([
     ]);
 
-    this.eventForm = new FormGroup({
+    this.eventForm = this.fb.group({
       'name': this.name,
       'startTime': this.startTime,
       'endTime': this.endTime,

@@ -1,29 +1,21 @@
 <div class="container">
   <form [formGroup]="eventForm" (ngSubmit)="create()">
-    <div class="form-group row">
-      <div class="col-md-4 col-form-label">
-        <label for="name">Events name: </label>
-        <input type="text" id="name" name="name" class="form-control" formControlName="name" />
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-md-4 col-form-label">
-        <label for="startTime">Starts: </label>
-        <input type="datetime" id="startTime" class="form-control" formControlName="startTime" />
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-md-4 col-form-label">
-        <label for="endTime">Ends: </label>
-        <input type="datetime" id="endTime" class="form-control" formControlName="endTime" />
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-md-4 col-form-label">
-        <label for="description">Description: </label>
-        <textarea id="description" rows="10" class="form-control" formControlName="description"></textarea>
-      </div>
-    </div>
+    <mat-form-field>
+      <input matInput placeholder="Enter Start date/time" [formControl]="startTime" />
+      <mat-error *ngIf="startTime.invalid"></mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Enter End date/time" [formControl]="endTime" />
+      <mat-error *ngIf="endTime.invalid"></mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea matInput rows="10" type="text" placeholder="Enter Event description" 
+        [formControl]="description"></textarea>
+      <mat-error *ngIf="description.invalid"></mat-error>
+    </mat-form-field>
+
     <!-- <fieldset class="form-group" *ngIf="">
     <legend>Select participants</legend>
     <label for="participants"></label>
@@ -35,19 +27,18 @@
       </option>
     </select>
   </fieldset> -->
-    <div class="form-group row mx-auto">
-      <div class="col-6">
-        <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid || eventForm.untouched">
-          <span class="hidden-xs-down">Submit</span>
-          <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+
+      <div class="row">
+        <button type="submit" mat-button-raised color="primary" [disabled]="eventForm.invalid || eventForm.untouched">
+            <mat-icon>input</mat-icon>
+            <span>Log in</span>
+        </button>
+      
+        <button type="button" mat-button-raised color="warning" [disabled]="eventForm.untouched" (click)="reset()">
+            <mat-icon>clear</mat-icon>
+            <span>Clear</span>
         </button>
       </div>
-      <div class="col-6">
-        <button type="button" class="btn btn-danger" [disabled]="eventForm.untouched" (click)="reset()">
-          <span class="hidden-xs-down">Clear</span>
-          <i class="fa fa-times" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div>
+  
   </form>
 </div>
