@@ -5,15 +5,18 @@
 $mpis-app-primary: mat-palette($mat-lime, 900);
 $mpis-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 
-// The warn palette is optional (defaults to red).
-$mpis-app-warn:    mat-palette($mat-red);
+$mpis-app-warn:    mat-palette($mat-red, A700);
 
-$mpis-app-background: mat-palette($mat-grey, 300);
-// Create the theme object (a Sass map containing all of the palettes).
 $mpis-app-theme: mat-dark-theme($mpis-app-primary, $mpis-app-accent, $mpis-app-warn);
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 @include angular-material-theme($mpis-app-theme);
 
+.light-theme {
+  $mpis-app-light-primary: mat-palette($mat-brown, 300);
+  $mpis-app-light-accent: mat-palette($mat-teal, 900);
+  $mpis-app-light-warninng: mat-palette($mat-red, A400);
+
+  $mpis-app-light-theme: mat-light-theme($mpis-app-light-primary, $mpis-app-light-accent, $mpis-app-light-warninng);
+
+  @include angular-material-theme($mpis-app-light-theme);
+}

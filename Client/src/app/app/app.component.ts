@@ -11,6 +11,7 @@ import { SideMenuComponent } from '../shared/reusables/components/';
 })
 export class AppComponent implements OnInit {
   menuOpened = false;
+  isAppDarkTheme = false;
   title = 'My partner in sports';
 
   @ViewChild(SideMenuComponent) sideMenu: SideMenuComponent

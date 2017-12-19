@@ -3,7 +3,7 @@ import { UserStoreService } from './user-store.service';
 import { Http, Response } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import { IUser } from '../../interfaces/';
-import { HttpHelpersService } from './';
+import { HttpHelpersService, FbQueriesService } from './';
 import { EnvVariables, IEnvironmentVariables } from '../../environment/';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -16,6 +16,7 @@ export class AuthService {
     private userStoreSvc: UserStoreService,
     private http: Http,
     private httpHelpers: HttpHelpersService,
+    // private fb: FbQueriesService,
     @Inject(EnvVariables) private vars: IEnvironmentVariables
   ) {
     this.init();
@@ -64,6 +65,10 @@ export class AuthService {
         }
       );
     });
+  }
+
+  fbLogin() {
+
   }
 
   forgotPassword(email: string): Promise<any> {

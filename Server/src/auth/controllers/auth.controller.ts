@@ -14,7 +14,7 @@ export class AuthController {
     return {
       operationStatus: 'Ok',
       data: {
-        jwt_token: req['jwt_token'],
+        token: req['token'],
         name: req['name'] || null,
         email: req['email'] || null
       }

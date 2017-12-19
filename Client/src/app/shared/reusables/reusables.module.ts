@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { CarouselComponent, SideMenuComponent } from './components/';
+import { CarouselComponent, SideMenuComponent, UserMenuComponent } from './components/';
 import { NgxSiemaModule } from 'ngx-siema';
 import { CommonDeptsModule } from '../index';
 
@@ -15,11 +15,13 @@ import { CommonDeptsModule } from '../index';
   ],
   exports: [
     CarouselComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    UserMenuComponent
   ],
   declarations: [
     CarouselComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    UserMenuComponent
   ],
   entryComponents: [CarouselComponent]
 })

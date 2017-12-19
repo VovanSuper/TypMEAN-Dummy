@@ -4,5 +4,5 @@ export interface IEnvironmentVariables {
   usersUrl          : string;
   loginUrl          : string;
   forgotPasswordUrl : string;
-
+  fbAppId           : string;
 }

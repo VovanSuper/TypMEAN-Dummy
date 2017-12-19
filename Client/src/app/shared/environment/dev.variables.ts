@@ -1,5 +1,6 @@
 // let hostUrl = `${app.API_HOST}:${app.API_PORT}` || '//localhost:8080';
 let hostUrl = '//localhost:8080';
+let fbAppId = '1825033960857449';
 
 export const Variables = {
   eventsUrl         : `${hostUrl}/events`,

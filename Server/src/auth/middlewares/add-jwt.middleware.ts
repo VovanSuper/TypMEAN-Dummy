@@ -16,7 +16,7 @@ export class AddTokenMiddleware implements NestMiddleware {
           err: 'User is not authencticated'
         })
       }
-      req['jwt_token'] = this.authSvc.createToken(req.user['fb_id'], req.user['name']);
+      req['token'] = this.authSvc.createToken(req.user['fb_id'], req.user['name']);
       return next();
     }
   }

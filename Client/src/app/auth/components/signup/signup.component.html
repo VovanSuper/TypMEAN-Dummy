@@ -41,10 +41,10 @@
       </mat-radio-button>
     </mat-radio-group>
 
-    <div class="form-group">
+    <div>
       <div class="file-upload">
-        <label class="control-label col-sm-2" for="fileInput">Image:</label>
-        <div class="col-sm-10">
+        <label for="fileInput">Image:</label>
+        <div>
           <input #fileInput type="file" (change)="change($event)" id="fileInput" name="fileInput" />
         </div>
       </div>
@@ -54,12 +54,12 @@
       <button mat-raised-button color="primary" type="submit" 
         [disabled]="registrationForm.invalid || registrationForm.untouched">
         <mat-icon>input</mat-icon>
-        <span class="hidden-sm-down">Log in</span>
+        <span >Log in</span>
       </button>
 
       <button type="button" class="btn btn-warning" [disabled]="registrationForm.untouched" (click)="reset()">
         <mat-icon>clear</mat-icon>
-        <span class="hidden-sm-down">Clear</span>
+        <span >Clear</span>
       </button>
     </div>
     

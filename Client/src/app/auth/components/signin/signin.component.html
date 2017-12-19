@@ -1,30 +1,30 @@
 <div class="container">
   <form [formGroup]="signinForm" (ngSubmit)="signIn()" novalidate autocomplete="false">
 
-    <div class="form-group row">
+    <div class="row">
       <mat-form-field>
         <input matInput type="text" placeholder="Enter your username" [formControl]="username" required>
         <mat-error *ngIf="username.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
 
-    <div class="form-group row">
+    <div class="row">
       <mat-form-field>
         <input matInput type="password" placeholder="Enter your password" [formControl]="password" required>
         <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
 
-    <div class="form-group row">
-      <div class="offset-md-4 col-md-4">
+    <div class="row">
+      <div>
         <button mat-raised-button color="primary" [disabled]="signinForm.invalid || signinForm.untouched">
           <mat-icon>input</mat-icon>
-          <span class="hidden-sm-down">Log in</span>
+          <span >Log in</span>
         </button>
       </div>
     </div>
     <div class="row">
-      <div class="offset-sm-4 col-sm-4">
+      <div>
         OR &nbsp;
         <a routerLink="/auth/signup">Sign UP</a>
       </div>
