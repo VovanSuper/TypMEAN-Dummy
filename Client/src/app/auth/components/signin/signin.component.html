@@ -1,33 +1,32 @@
-<div class="container">
+<div class="container" fxLayout="column" fxLayoutGap="1rem" fxLaytoutAlign="start center" fxFlexFill>
   <form [formGroup]="signinForm" (ngSubmit)="signIn()" novalidate autocomplete="false">
 
-    <div class="row">
-      <mat-form-field>
-        <input matInput type="text" placeholder="Enter your username" [formControl]="username" required>
-        <mat-error *ngIf="username.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
-    </div>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Enter your username" [formControl]="username" required>
+      <mat-error *ngIf="username.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
 
-    <div class="row">
-      <mat-form-field>
-        <input matInput type="password" placeholder="Enter your password" [formControl]="password" required>
-        <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
-    </div>
+    <mat-form-field>
+      <input matInput type="password" placeholder="Enter your password" [formControl]="password" required>
+      <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
 
-    <div class="row">
-      <div>
-        <button mat-raised-button color="primary" [disabled]="signinForm.invalid || signinForm.untouched">
-          <mat-icon>input</mat-icon>
-          <span >Log in</span>
-        </button>
-      </div>
-    </div>
-    <div class="row">
-      <div>
+    <button mat-raised-button color="primary" [disabled]="signinForm.invalid || signinForm.untouched">
+      <mat-icon>input</mat-icon>
+      <span>Log in</span>
+    </button>
+
+    <section fxLayout="row" fxLayout.xs="column" >
+      <div fxFlex="1 1 50%">
         OR &nbsp;
         <a routerLink="/auth/signup">Sign UP</a>
       </div>
-    </div>
+      <div fxFlex="1 1 50%">
+        <button mat-button color="warning" (click)="loginFb()">
+          <i class="fb-btn-logo"></i>
+          Facebook
+        </button>
+      </div>
+    </section>
   </form>
 </div>

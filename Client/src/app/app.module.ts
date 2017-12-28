@@ -21,10 +21,10 @@ import { HomeComponent } from './home/';
   imports: [
     BrowserModule,
     CommonDeptsModule,
+    EnvironmentsModule.forRoot(),
     FacebookModule.forRoot(),
     NgxSiemaModule.forRoot(),
     SharedServicesModule.forRoot(),
-    EnvironmentsModule.forRoot(),
     ReusablesModule,
     AuthModule,
     AppRoutes,

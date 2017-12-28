@@ -12,3 +12,5 @@ export * from './anonymous.guard';
 export * from './auth.service';
 export * from './user-store.service';
 export * from './fb-queries.service';
+export * from './menu.service';
+export * from './snackbar.service';

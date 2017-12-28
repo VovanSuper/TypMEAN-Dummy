@@ -18,3 +18,10 @@ button[disabled] {
   background-color: #ccc ;
   color: #666;
 }
+.row {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}

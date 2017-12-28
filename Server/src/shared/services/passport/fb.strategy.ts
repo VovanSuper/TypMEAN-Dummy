@@ -12,7 +12,7 @@ export class FacebookStrategy extends FbTokenStrategy {
         clientID: get<string>('secrets.fb.appId'),
         clientSecret: get<string>('secrets.fb.appSecret')
         // , profileFields: ['id', 'displayName', 'photoes', 'email']
-        
+
       },
       async (accessToken, refreshToken, profile, done) =>
         await this.verifyFb(accessToken, refreshToken, profile, done)
@@ -23,11 +23,12 @@ export class FacebookStrategy extends FbTokenStrategy {
   async verifyFb(accessToken, refreshToken, profile, done) {
     console.log(`[fb.strategy->verifyFb()]:: accessToken: ${accessToken}, profile: ${JSON.stringify(profile)}`);
     try {
-      const isValid = await this.authService.validateOrCreateFbUser(profile, accessToken);
-      if (!isValid) {
-        return done('Unauthorized', null);
+      const savedfbUser = await this.authService.validateOrCreateFbUser(profile, accessToken);
+      if (!savedfbUser) {
+        return done(`[fb.strat->varifyFb()]::Failed; input: accToken: ${accessToken};
+                               profile: ${JSON.stringify(profile)}`, null);
       }
-      return done(null, profile);
+      return done(null, savedfbUser);
     } catch (e) {
       console.log(`[fb.strategy->verifyFb() Catch block]:: error ${JSON.stringify(e)}`);
 

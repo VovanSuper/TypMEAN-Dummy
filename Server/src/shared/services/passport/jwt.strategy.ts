@@ -10,19 +10,19 @@ export class JwtStrategy extends Strategy {
     super(
       {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        passReqToCallback: true,
+        // passReqToCallback: true,
         secretOrKey: get<string>('secrets.jwtStr'),
       },
-      async (req, payload, next) => await this.verifyJwt(req, payload, next)
+      async (payload, done) => await this.verifyJwt(payload, done)
     );
     passport.use(this);
   }
 
-  async verifyJwt(req, payload, done) {
-    const isValid = await this.authService.validateJwtUser(payload);
-    if (!isValid) {
+  async verifyJwt(payload, done) {
+    const user = await this.authService.validateJwtUserByFbId(payload);
+    if (!user) {
       return done('Unauthorized', null);
     }
-    done(null, payload);
+    done(null, user);
   }
 }

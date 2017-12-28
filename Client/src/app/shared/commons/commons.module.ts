@@ -20,7 +20,8 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatChipsModule,
-  MatRadioModule
+  MatRadioModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 @NgModule({
@@ -45,6 +46,7 @@ import {
     MatChipsModule,
     MatRadioModule,
     FlexLayoutModule,
+    MatSnackBarModule,
     NoopAnimationsModule
   ],
   exports: [
@@ -67,6 +69,7 @@ import {
     MatToolbarModule,
     MatChipsModule,
     MatRadioModule,
+    MatSnackBarModule,
     NoopAnimationsModule,
     FlexLayoutModule
   ]

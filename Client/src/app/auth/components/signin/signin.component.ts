@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validation, ValidateField } from '../../Validations/';
-import { AuthService } from '../../../shared/module/services/';
+import { AuthService, SnackBarService } from '../../../shared/module/services/';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
@@ -15,12 +15,17 @@ export class SigninComponent implements OnInit {
   username: FormControl;
   password: FormControl;
 
-  constructor(private auth: AuthService, private router: Router, private fb: FormBuilder) { }
+  constructor(
+    private authSvc: AuthService,
+    private router: Router,
+    private fb: FormBuilder,
+    private snackSvc: SnackBarService
+  ) { }
 
   ngOnInit() {
     this.username = new FormControl('', [Validators.required, Validators.minLength(4)]);
     this.password = new FormControl('', [Validators.required, Validators.minLength(5), Validation.passwordStrength]);
-    this.signinForm = new FormGroup({
+    this.signinForm = this.fb.group({
       'username': this.username,
       'password': this.password
     });
@@ -30,11 +35,24 @@ export class SigninComponent implements OnInit {
 
   signIn() {
     console.dir(this.signinForm.value);
-    this.auth.login(this.signinForm.value['username'], this.signinForm.value['password']).then(isloged => {
+    this.authSvc.loginLocal(this.signinForm.value['username'], this.signinForm.value['password']).then(isloged => {
       this.router.navigateByUrl('/events');
     })
-      .catch(err => console.error(`[signin.cmp->signIn()]:: ${JSON.stringify(err)}`));
+      .catch(err => {
+        this.snackSvc.show('Error loging Fb', err.toString());
+        console.error(`[signin.cmp->signIn()]:: ${JSON.stringify(err)}`)
+      });
     this.reset();
+  }
+
+  loginFb() {
+    this.authSvc.loginFb().then(user => {
+      console.log('[home.cmp->loginFb()]:: authenticated');
+    })
+      .catch(err => {
+        this.snackSvc.show('Error loging Fb', err.toString());
+        console.error(`[signin.cmp->loginFb()]:: ${JSON.stringify(err)}`)
+      });
   }
 
 

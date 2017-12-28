@@ -15,7 +15,9 @@ import {
   HttpHelpersService,
   UserStoreService,
   FbQueriesService,
-  AnonymousGuard
+  AnonymousGuard,
+  MenuService,
+  SnackBarService
 } from './services/';
 
 @NgModule({})
@@ -29,10 +31,12 @@ export class SharedServicesModule {
       ngModule: SharedServicesModule,
       providers: [
         { provide: 'canLeave', useValue: canDeactivate },
+        { provide: MenuService, useClass: MenuService },
+        { provide: SnackBarService, useClass: SnackBarService },
         { provide: ErrorService, useClass: ErrorService },
         { provide: HttpHelpersService, useClass: HttpHelpersService },
-        { provide: FbQueriesService, useClass: FbQueriesService },
         { provide: ApiService, useClass: ApiService },
+        { provide: FbQueriesService, useClass: FbQueriesService },
         { provide: EventRouteValidService, useClass: EventRouteValidService },
         { provide: UserRouteValidService, useClass: UserRouteValidService },
         { provide: EventsResolverService, useClass: EventsResolverService },

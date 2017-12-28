@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { ValidateField, Validation } from '../../Validations/';
-import { ApiService, AuthService } from '../../../shared/module/services/';
+import { ApiService, AuthService, SnackBarService } from '../../../shared/module/services/';
 
 @Component({
   templateUrl: 'signup.component.html',
@@ -11,8 +11,8 @@ import { ApiService, AuthService } from '../../../shared/module/services/';
 })
 
 export class SignupComponent implements OnInit {
-  @ViewChild('fileInput') fileInput: ElementRef;
-  file: FormData;
+  // @ViewChild('fileInput') fileInput: ElementRef;
+  // file: FormData;
 
   name: FormControl;
   username: FormControl;
@@ -31,7 +31,8 @@ export class SignupComponent implements OnInit {
     private apiSvc: ApiService,
     private authSvc: AuthService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackSvc: SnackBarService
   ) {
     this.validatefield = ValidateField;
   }
@@ -91,16 +92,16 @@ export class SignupComponent implements OnInit {
     this.reset();
   }
 
-  change() {
-    // this is connected to the html
-    this.file = new FormData();
-    let fi = this.fileInput.nativeElement;
-    if (fi.files && fi.files[0]) {
-      let fileToUpload = fi.files[0];
-      this.file.append('file', fileToUpload);
-      this.registrationForm.addControl('avatar', new FormControl(this.file));
-    };
-  }
+  // change() {
+  //   // this is connected to the html
+  //   this.file = new FormData();
+  //   let fi = this.fileInput.nativeElement;
+  //   if (fi.files && fi.files[0]) {
+  //     let fileToUpload = fi.files[0];
+  //     this.file.append('file', fileToUpload);
+  //     this.registrationForm.addControl('avatar', new FormControl(this.file));
+  //   };
+  // }
 
   submit() {
     console.dir(this.registrationForm.value);
@@ -114,7 +115,10 @@ export class SignupComponent implements OnInit {
         throw new Error('No token retured by server; something gone wrong!');
       }
     })
-      .catch(err => console.error(err, 'Error signing up!'))
+      .catch(err => {
+        console.log(`[signup.cmp->submit()]:: Erorr signup : ${JSON.stringify(err)}`);
+        this.snackSvc.show('Error signing up', JSON.stringify(err));
+      })
 
   }
 

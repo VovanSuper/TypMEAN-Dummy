@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { AuthRoutingModule } from './auth.routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SigninComponent, SignupComponent, UserAuthComponent } from './components/';
+import { SigninComponent, SignupComponent } from './components/';
 import { CommonDeptsModule } from "../shared/";
 import { ProfileComponent } from './components/profile/profile.component';
 
@@ -17,11 +17,7 @@ import { ProfileComponent } from './components/profile/profile.component';
   declarations: [
     SigninComponent,
     SignupComponent,
-    UserAuthComponent,
     ProfileComponent
-  ],
-  exports: [
-    UserAuthComponent
   ]
 })
 export class AuthModule { }

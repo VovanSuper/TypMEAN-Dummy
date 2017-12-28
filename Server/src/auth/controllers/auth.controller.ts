@@ -1,22 +1,23 @@
-import { Controller, Body, Post, Request, Response } from '@nestjs/common';
-import { sign } from 'jsonwebtoken';
-import { get } from 'config';
-
-import { AuthService } from '../../shared/services/';
+import { Controller, Body, Post, Request } from '@nestjs/common';
+import { createToken } from '../helpers/jwt-maker';
+import * as express from 'express';
 
 @Controller('/auth')
 export class AuthController {
 
-  constructor(private authSvc: AuthService) { }
+  constructor() { }
 
   @Post('facebook')
-  async fbAuth( @Request() req) {
+  async fbAuth( @Request() req: express.Request) {
+    console.log(`auth.ctrl->@Post fbAuth():: req.user : ${JSON.stringify(req.user)}`);
+
+    let token = createToken(req.user.fb_id, req.user.id, req.user.name, req.user.email);
+    console.log('Token is: ', token);
+    
     return {
       operationStatus: 'Ok',
       data: {
-        token: req['token'],
-        name: req['name'] || null,
-        email: req['email'] || null
+        token: token
       }
     }
   }

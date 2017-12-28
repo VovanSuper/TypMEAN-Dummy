@@ -1,0 +1,18 @@
+
+.button-logout {
+  color: red;
+  max-width: 4rem;
+}
+
+.avatar {
+  width: 2.2rem;
+  height: 2.2rem;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+@media screen and (min-height: 400px) {
+  .container {
+    // width: 10rem;
+  }
+}

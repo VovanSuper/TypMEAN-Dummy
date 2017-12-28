@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" fxLayout="column" fxLayoutGap="1rem" fxLaytoutAlign="start center" fxFlexFill>
   <form [formGroup]="registrationForm" (ngSubmit)="submit()" novalidate autocomplete="false">
 
     <h4>Registration</h4>
@@ -41,14 +41,14 @@
       </mat-radio-button>
     </mat-radio-group>
 
-    <div>
+    <!-- <div>
       <div class="file-upload">
         <label for="fileInput">Image:</label>
         <div>
           <input #fileInput type="file" (change)="change($event)" id="fileInput" name="fileInput" />
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="row">
       <button mat-raised-button color="primary" type="submit" 

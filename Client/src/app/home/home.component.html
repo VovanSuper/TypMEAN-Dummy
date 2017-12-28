@@ -4,7 +4,33 @@
   <div *ngIf="isLoggedIn; then wellcomeBlock else loginOptionsBlock"></div>
 
   <ng-template #wellcomeBlock>
-    <h2>Wellcome, {{currentUser}}</h2>
+    <mat-card fxFlex="1 1 100%" fxFill>
+      <mat-card-header>
+        <h2>Wellcome,
+          <em>{{currentUser.name}}</em>
+        </h2>
+      </mat-card-header>
+      <mat-card-content>
+        <section class="panel" fxLayout="column" fxLayoutGap="1rem" fxFlexFill >
+          <div fxFlexAlign="right">
+              <h4>fb-follow</h4>
+              <fb-follow href="{{followPage}}"></fb-follow>
+          </div>
+          <div class="row">
+            <i>Go to Events</i>
+            <a mat-raised-button color="primary" routerLink="/events">Events</a>
+          </div>
+          <div class="row">
+            <i>Create new Event</i>
+            <button mat-raised-button color="warning" (click)="createNewEvent()">Events</button>
+          </div>
+          <br />
+          <div class="row">
+            <button class="orange" mat-button (click)="search()">Search</button>
+          </div>
+        </section>
+      </mat-card-content>
+    </mat-card>
   </ng-template>
 
   <ng-template #loginOptionsBlock>
@@ -22,10 +48,10 @@
           <i class="fb-btn-logo"></i>
           Facebook
         </button>
-        <button mat-button color="warning" (click)="fbGetProfile()">
+        <!-- <button mat-button color="warning" (click)="fbGetProfile()">
           <i class="fb-btn-logo"></i>
           Profile
-        </button>
+        </button> -->
       </mat-card-actions>
     </mat-card>
   </ng-template>

@@ -6,11 +6,15 @@
 /out-tsc
 data/
 dist
+dist/*
+/dist/*
 wwwroot/*
 /wwwroot
 !wwwroot/assets
 !wwwroot/fonts
 config
+config/*
+/config
 !config/test.yaml
 
 

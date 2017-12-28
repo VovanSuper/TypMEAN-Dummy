@@ -15,9 +15,9 @@ export class UsersService {
     console.log('UsersService ctor..... ');
   }
 
-  async upsertFbUser(profile: Profile, accessToken: string) {
-    let existingUser = await this.repo.findOneById(profile.id);
+  async upsertFbUser(profile: Profile, accessToken: string): Promise<UserDto> {
     try {
+      let existingUser = await this.repo.findOne({ 'fb_id': profile.id });
       if (!existingUser) {
         let savedUser = await this.repo.save({
           name: profile.displayName,

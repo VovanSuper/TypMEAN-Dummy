@@ -1,27 +1,18 @@
 import { Component } from '@nestjs/common';
-import * as jwt from 'jsonwebtoken';
 import { get } from "config";
 import { Profile } from 'passport-facebook-token';
 import { UsersService } from './users.service';
-import { fbUserDto } from '../../models/index';
+import { FbUserDto, UserDto } from '../../models/';
 
 @Component()
 export class AuthService {
 
   constructor(private readonly userSvc: UsersService) { }
 
-  createToken(fb_id: number | string, name?: string, email?: string | null) {
-    const expiresIn = 60 * 60 * 24 * 60,
-      secretOrKey = get<string>('secrets.jwtStr');
-    let user = { fb_id, name, email };
-    return jwt.sign(user, secretOrKey, { expiresIn });
-
-  }
-
-  async validateJwtUser(payload: fbUserDto): Promise<number | string | null> {
+  async validateJwtUserByFbId(payload: FbUserDto): Promise<UserDto | null> {
     let user = await this.userSvc.repo.findOne({ fb_id: payload.fb_id })
     if (user) {
-      return user.fb_id;
+      return user;
     } else {
       console.log(`[auth.service->validateJwtUser()]:: user is ${JSON.stringify(user)}`);
 
@@ -29,7 +20,7 @@ export class AuthService {
     }
   }
 
-  async validateOrCreateFbUser(profile: Profile, accessToken: string): Promise<fbUserDto> {
+  async validateOrCreateFbUser(profile: Profile, accessToken: string): Promise<UserDto> {
     try {
       let fbUser = await this.userSvc.upsertFbUser(profile, accessToken);
       if (fbUser) {

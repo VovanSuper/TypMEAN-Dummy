@@ -7,11 +7,16 @@ import { HttpHelpersService } from './http-helpers.service';
 import { EnvVariables } from '../../environment/variables.token';
 import { IEnvironmentVariables } from '../../environment/';
 
+type respTokenData = IUser & { [token: string]: string };
+type respData = respTokenData | IUser[];
+type serverResp = { operationStatus: string, data?: respData, err?: string }
+
 @Injectable()
 export class ApiService {
 
   baseOpts: RequestOptions = null;
   authOpts: RequestOptions = null;
+  authFbATokenOpts: RequestOptions = null;
 
   constructor(
     private http: Http,
@@ -20,6 +25,29 @@ export class ApiService {
   ) {
     this.baseOpts = this.helpersSvc.getBaseRequestOptions();
     this.authOpts = this.helpersSvc.getBaseRequestOptionsWithAuth();
+  }
+
+  public authFb(access_token: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      let fb_access_token_Opts = this.helpersSvc.getBaseRequestOptionsWithFbAccessTokenAuth(access_token);
+      console.log(`fb_access_token_Opts: ${JSON.stringify(fb_access_token_Opts)}`);
+
+      this.http.post(this.vars.authFbUrl, {}, fb_access_token_Opts).map((resp: Response) => resp.json()).toPromise()
+        .then((resp: serverResp) => {
+          if (resp.err)
+            throw new Error(`Auth server returned error: ${JSON.stringify(resp.err)}`)
+          if (resp.data && resp.data['token']) {
+            console.log(`api.Svc->authFb()  resolving token: ${JSON.stringify(resp.data['token'])}`);
+            return resolve(resp.data['token']);
+          } else {
+            throw new Error('No token came back');
+          }
+        })
+        .catch(err => {
+          console.log(`[api.svc->authFb()]:: Error in http.post to server fb_acc_token: ${JSON.stringify(err)}`);
+          this.handleError(err);
+        })
+    });
   }
 
   public getEvents(): Promise<IEvent[]> {
@@ -75,9 +103,9 @@ export class ApiService {
     }).catch(this.handleError);
   }
 
-  public getUserById(id: string): Promise<IUser> {
+  public getUserById(id: string, token: string = ''): Promise<IUser> {
     if (id === undefined) throw new Error(`Event id ${id} shouldn't be undefined `);
-    return this.getUserByIdJson(id).then(res => {
+    return this.getUserByIdJson(id, token).then(res => {
       if (res.err) throw new Error(res.err);
       return Promise.resolve(res.data as IUser);
     }).catch(this.handleError);
@@ -91,10 +119,10 @@ export class ApiService {
     }).catch(this.handleError);
   }
 
-  public createUser(user: IUser | string): Promise<IUser & {[token: string]: any}> {
+  public createUser(user: IUser | string): Promise<IUser & { [token: string]: any }> {
     return this.createUserJson(user).then(res => {
       if (res.err) throw new Error(res.err);
-      return Promise.resolve(res.data as IUser & {[token: string]: any});
+      return Promise.resolve(res.data as IUser & { [token: string]: any });
     }).catch(this.handleError);
   }
 
@@ -117,64 +145,61 @@ export class ApiService {
   /**
   * Private methods for http crud calls to server wrapping actual server responce object 
   */
-  private getEventsJson(): Promise<{ operationStatus: string, data?: IEvent[], err?: string }> {
-    return this.http.get(`${this.vars.eventsUrl}`, this.baseOpts)
+  private getEventsJson(): Promise<serverResp> {
+    return this.http.get(`${this.vars.eventsUrl}`, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
-  private getEventByIdJson(id: string): Promise<{ operationStatus: string, data?: IEvent, err?: string }> {
-    return this.http.get(`${this.vars.eventsUrl}/${id}`, this.baseOpts)
+  private getEventByIdJson(id: string): Promise<serverResp> {
+    return this.http.get(`${this.vars.eventsUrl}/${id}`, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
   private deleteEventByIdJson(id: string): Promise<{ operationStatus: string, err?: string }> {
     return this.http.delete(`${this.vars.eventsUrl}/${id}`, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
-  private createEventJson(event: IEvent)
-    : Promise<{ operationStatus: string, data?: IEvent, err?: string }> {
+  private createEventJson(event: IEvent): Promise<serverResp> {
     return this.http.post(`${this.vars.eventsUrl}`, event, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
-  private changeEventByIdJson(id: string, newEvent: IEvent)
-    : Promise<{ operationStatus: string, data?: IEvent, err?: string }> {
+  private changeEventByIdJson(id: string, newEvent: IEvent): Promise<serverResp> {
     return this.http.put(`${this.vars.eventsUrl}/${id}`, newEvent, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
-  private patchEventByIdJson(id: string, newEvent: IEvent)
-    : Promise<{ operationStatus: string, data?: IEvent, err?: string }> {
+  private patchEventByIdJson(id: string, newEvent: IEvent): Promise<serverResp> {
     return this.http.patch(`${this.vars.eventsUrl}/${id}`, newEvent, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
 
-  private getUsersJson(): Promise<{ operationStatus: string, data?: IUser[], err?: string }> {
+  private getUsersJson(): Promise<serverResp> {
     return this.http.get(`${this.vars.usersUrl}`, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
-  private getUserByIdJson(id: string): Promise<{ operationStatus: string, data?: IUser, err?: string }> {
+  private getUserByIdJson(id: string, token: string = ''): Promise<serverResp> {
+    if (token !== '')
+      this.authOpts = this.helpersSvc.getBaseRequestOptionsWithAuth(token);
+
     return this.http.get(`${this.vars.usersUrl}/${id}`, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
-  private deleteUserByIdJson(id: string): Promise<{ operationStatus: string, err?: string }> {
+  private deleteUserByIdJson(id: string): Promise<serverResp> {
     return this.http.delete(`${this.vars.usersUrl}/${id}`, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
-  private createUserJson(user: IUser | string)
-    : Promise<{ operationStatus: string, data?: IUser | IUser & { [token: string]: any }, err?: string }> {
+  private createUserJson(user: IUser | string): Promise<serverResp> {
     return this.http.post(`${this.vars.usersUrl}`, user, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
-  private changeUserByIdJson(id: string, newUser: IUser)
-    : Promise<{ operationStatus: string, data?: IUser, err?: string }> {
+  private changeUserByIdJson(id: string, newUser: IUser): Promise<serverResp> {
     return this.http.put(`${this.vars.eventsUrl}/${id}`, newUser, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
-  private patchUserByIdJson(id: string, newUser: IUser)
-    : Promise<{ operationStatus: string, data?: IUser, err?: string }> {
+  private patchUserByIdJson(id: string, newUser: IUser): Promise<serverResp> {
     return this.http.patch(`${this.vars.usersUrl}/${id}`, newUser, this.authOpts)
       .map((resp: Response) => resp.json()).toPromise();
   }
 
   private handleError(error: Response | any) {
-    let errMsg: string;               // enhance with remote logger
+    let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
       const err = body.error || JSON.stringify(body);

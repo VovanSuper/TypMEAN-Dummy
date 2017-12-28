@@ -1,6 +1,14 @@
-<button mat-icon-button [matMenuTriggerFor]="themeMenu">
-  <mat-icon>more_vert</mat-icon>
-</button>
-<mat-menu x-position="before" #themeMenu>
-  <button mat-menu-item (click)="changeTheme()">Toggle Theme</button>
-</mat-menu>
+<section fxLayout="row" fxLayout.xs="column" fxLayoutGap=".1rem">
+  <button mat-icon-button [matMenuTriggerFor]="themeMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu x-position="before" #themeMenu>
+    <button mat-menu-item (click)="changeTheme()">
+      <mat-icon>format-color-fill</mat-icon>
+      <span>Theme</span>
+    </button>
+  </mat-menu>
+
+  <app-user-auth></app-user-auth>
+</section>

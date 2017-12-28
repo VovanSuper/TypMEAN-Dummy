@@ -13,9 +13,9 @@ export class AnonymousGuard implements CanActivate {
   }
 
   checkLogin(): boolean {
-    if (this.userSvc.isAuthenticated())
+    if (this.userSvc.isAuthenticated)
       this.errorSvc.error('Already authenticated', 'Auth', '/auth/profile');
 
-    return !this.userSvc.isAuthenticated();
+    return !this.userSvc.isAuthenticated;
   }
 }

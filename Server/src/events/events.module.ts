@@ -1,15 +1,27 @@
-import { Module } from '@nestjs/common';
-import { MongoRepository } from 'typeorm';
+import { Module, NestModule, MiddlewaresConsumer } from '@nestjs/common';
+import * as passport from 'passport';
 import { EventsService } from './services/events.service';
-import { EventsController} from './controllers/events.controller';
+import { EventsController } from './controllers/events.controller';
+import { SharedModule } from '../shared/';
+import { AuthService } from '../shared/services/auth.service';
+import { UsersService } from '../shared/services/users.service';
 
 @Module({
+  modules: [
+    SharedModule
+  ],
   components: [
-    MongoRepository,
+    AuthService,
+    UsersService,
     EventsService
   ],
   controllers: [
     EventsController
   ]
 })
-export class EventsModule { }
+export class EventsModule implements NestModule {
+  configure(consumer: MiddlewaresConsumer): void | MiddlewaresConsumer {
+    consumer.apply(passport.authenticate('jwt', { session: false }))
+      .forRoutes(EventsController);
+  }
+}

@@ -1,5 +1,16 @@
 <div class="container">
   <form [formGroup]="eventForm" (ngSubmit)="create()">
+
+    <mat-form-field>
+      <input matInput placeholder="Enter Event name" [formControl]="name" />
+      <mat-error *ngIf="name.invalid"></mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Enter the Event Place" [formControl]="place" />
+      <mat-error *ngIf="place.invalid"></mat-error>
+    </mat-form-field>
+
     <mat-form-field>
       <input matInput placeholder="Enter Start date/time" [formControl]="startTime" />
       <mat-error *ngIf="startTime.invalid"></mat-error>
@@ -12,7 +23,8 @@
 
     <mat-form-field>
       <textarea matInput rows="10" type="text" placeholder="Enter Event description" 
-        [formControl]="description"></textarea>
+        [formControl]="description">
+      </textarea>
       <mat-error *ngIf="description.invalid"></mat-error>
     </mat-form-field>
 
@@ -28,17 +40,19 @@
     </select>
   </fieldset> -->
 
-      <div class="row">
-        <button type="submit" mat-button-raised color="primary" [disabled]="eventForm.invalid || eventForm.untouched">
-            <mat-icon>input</mat-icon>
-            <span>Log in</span>
-        </button>
-      
-        <button type="button" mat-button-raised color="warning" [disabled]="eventForm.untouched" (click)="reset()">
-            <mat-icon>clear</mat-icon>
-            <span>Clear</span>
-        </button>
-      </div>
-  
+    <div class="row">
+      <button type="submit" mat-button-raised color="primary" 
+        [disabled]="eventForm.invalid || eventForm.untouched">
+        <mat-icon>input</mat-icon>
+        <span>Log in</span>
+      </button>
+
+      <button type="button" mat-button-raised color="warning" 
+        [disabled]="eventForm.untouched" (click)="reset()">
+        <mat-icon>clear</mat-icon>
+        <span>Clear</span>
+      </button>
+    </div>
+
   </form>
 </div>

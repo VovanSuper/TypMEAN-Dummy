@@ -15,7 +15,22 @@ mat-card {
   mat-card-content {
     p {
       text-align: center;
-      color: lighten($color: #fff, $amount: 50);
+      color: lighten($color: #ccc, $amount: 50);
+    }
+    .panel {
+      box-sizing: border-box;
+
+      .row {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+
+        .orange {
+          background-color: orange;
+        }
+      }
     }
   }
 }

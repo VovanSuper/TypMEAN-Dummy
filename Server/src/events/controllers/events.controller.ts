@@ -1,19 +1,31 @@
 import { readFileSync, appendFileSync } from 'fs';
 import { resolve } from 'path';
-import { Controller, Get, Post, Body, Param, NotFoundException, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, NotFoundException, Headers, Request } from '@nestjs/common';
 import { ServerRequest } from 'http';
 import { EventDto } from '../../models/event.dto';
 import { EventsService } from '../services/events.service';
 import { Event } from '../../../data/entities/Event';
+import * as express from 'express';
+import { UsersService } from '../../shared/services/users.service';
 
 @Controller('events')
 export class EventsController {
 
-  constructor(public eventsSvc: EventsService) { }
+  constructor(public eventsSvc: EventsService, public usersSvc: UsersService) { }
 
   @Get()
   async getAll() {
-    let data = await this.eventsSvc.repo.find();
+    let events = await this.eventsSvc.repo.find();
+    let data = [];
+    console.dir(events[0]);
+
+    for (let event of events) {
+      let creator = await this.usersSvc.repo.findOneById(event.createdBy);
+      console.dir(creator);
+      event['createdBy'] = creator.name;
+      data.push(event);
+    }
+
     return {
       operationStatus: 'Found',
       data: data
@@ -32,8 +44,11 @@ export class EventsController {
     }
   }
 
-  @Post() create( @Body() req: EventDto) {
-    // this.eventsSvc.repo.create(req)
-    console.dir(req);
+  @Post() create( @Request() req: express.Request, @Body() event: EventDto) {
+    let userId = req.user;
+    console.log(userId);
+    console.log(userId);
+    console.dir(event);
+
   }
 }

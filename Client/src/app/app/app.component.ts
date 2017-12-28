@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { ApiService } from '../shared/module/services/';
+import { ApiService, AuthService, MenuService } from '../shared/module/services/';
 import { IUser, IEvent } from '../shared/interfaces/';
 import { SideMenuComponent } from '../shared/reusables/components/';
 
@@ -10,27 +10,27 @@ import { SideMenuComponent } from '../shared/reusables/components/';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  menuOpened = false;
+  isMenuOpened = false;
+  isLoggedIn = false;
   isAppDarkTheme = false;
   title = 'My partner in sports';
+  
+  @ViewChild(SideMenuComponent) sideMenu: SideMenuComponent;
 
-  @ViewChild(SideMenuComponent) sideMenu: SideMenuComponent
-  users: IUser[];
-  events: IEvent[];
-
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private authSvc: AuthService, private menuSvc: MenuService) { }
 
   ngOnInit() {
-    let p1 = this.api.getUsers();
-    let p2 = this.api.getEvents();
+    this.authSvc.isLoggedChange$.subscribe(val => {
+      this.isLoggedIn = val;
+      if (!!val) {
+        console.log('Loged in');
+      }
+    });
+  }
 
-    Promise.all([p1, p2]).then(([users, events]) => {
-      this.users = users || [];
-      this.events = events || [];
-    })
-      .catch(console.error);
-
-    this.sideMenu.sideNav.openedChange.subscribe(val => this.menuOpened = !!val)
+  toggleMenu() {
+    this.isMenuOpened = !this.isMenuOpened;
+    this.menuSvc.sideMenuOpened.next(this.isMenuOpened);
   }
 
 }

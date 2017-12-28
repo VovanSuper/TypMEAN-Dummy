@@ -1,24 +1,24 @@
 import { sign } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { Middleware, NestMiddleware, ExpressMiddleware } from '@nestjs/common';
-import { AuthService } from '../../shared/services/index';
+import { get } from 'config';
+import * as jwt from 'jsonwebtoken'
 
-@Middleware()
-export class AddTokenMiddleware implements NestMiddleware {
-
-  constructor(private authSvc: AuthService) { }
-
-  resolve(...args: any[]): ExpressMiddleware | Promise<ExpressMiddleware> {
-    return (req: Request, resp: Response, next: NextFunction) => {
-      if (!req.user) {
-        return resp.status(401).send({
-          operationStatus: 'Not Authenticated',
-          err: 'User is not authencticated'
-        })
-      }
-      req['token'] = this.authSvc.createToken(req.user['fb_id'], req.user['name']);
-      return next();
-    }
-  }
-
+let genToken = (req: any) => {
+  return this.createToken(req.user['fb_id'], req.user['_id'], req.user['name'], req.user['email']);
 }
+
+let createToken = (fb_id: number | string, id?: string, name?: string, email?: string | null) => {
+  const expiresIn = 60 * 60 * 24 * 60,
+    secretOrKey = get<string>('secrets.jwtStr');
+  let user = { id, fb_id, name, email };
+  return jwt.sign(user, secretOrKey, { expiresIn });
+}
+
+let AddTokenMiddleware = (req, resp, next) => {
+  console.log('add-jwt.midware called');
+  console.dir(req === undefined);
+  console.dir(req['user']);
+}
+
+export { AddTokenMiddleware }

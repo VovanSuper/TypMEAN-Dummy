@@ -12,7 +12,9 @@ export class EventsComponent implements OnInit {
   constructor(private actRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    this.events = this.actRoute.snapshot.data['events'];
+    this.actRoute.data.subscribe(data => {
+      this.events = data['events'];
+    })
   }
 
   gotoCreate() {

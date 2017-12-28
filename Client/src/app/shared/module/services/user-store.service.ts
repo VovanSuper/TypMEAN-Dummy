@@ -8,7 +8,11 @@ export class UserStoreService {
   constructor(private dataStoreSvc: DataStorageService) { }
   
   getToken(): string {
-    return this.dataStoreSvc.getByKey('token') || null;
+    return this.dataStoreSvc.getByKey('token');
+  }
+
+  saveToken(token:string) {
+    this.dataStoreSvc.setByKey('token', token);
   }
 
   getUserInfo(): IUser {
@@ -20,7 +24,7 @@ export class UserStoreService {
     let work_place = this.dataStoreSvc.getByKey('work_place');
     let avatarUrl = this.dataStoreSvc.getByKey('avatarUrl');
 
-    return { name, email, gender, registered, work_place, avatarUrl } as IUser;
+    return { name, email, gender, registered, work_place, avatarUrl };
   }
 
   setUserInfo(user: IUser & { [token: string]: any }) {

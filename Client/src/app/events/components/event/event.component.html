@@ -2,20 +2,20 @@
   <mat-card-header>
     <div mat-card-avatar class="event-card-header-image"></div>
     <mat-card-title>{{event.name}}</mat-card-title>
-    <mat-card-subtitle>Be my partner</mat-card-subtitle>
+    <mat-card-subtitle>Let's go for it!</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image src="//downloadclipart.net/large/2361-olympic-sports-athletics-pictogram-design.png" />
   <mat-card-content>
     <small>Starts: </small>
-
-    <i>{{event.startTime | amUtc | amDateFormat: 'DD/MM/YY'}}</i>
-
-    <small>Ends </small>
-
-    <i>{{event.endTime | amUtc | amDateFormat: 'DD/MM/YY'}}</i>
+    <i>{{event.startDate}}</i>
+    <br />
+    <small>Ends: </small>
+    <i>{{event.endDate}}</i>
   </mat-card-content>
   <mat-card-actions>
     <button mat-button>LIKE</button>
+    <h4>fb-like</h4>
+    <fb-like href="https://zyramedia.com"></fb-like>
+
     <button mat-button>SHARE</button>
     <a mat-button [routerLink]="['/events', event.id, 'details']" role="button" aria-pressed="false">Details</a>
   </mat-card-actions>

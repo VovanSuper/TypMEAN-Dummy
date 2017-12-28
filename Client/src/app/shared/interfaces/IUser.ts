@@ -8,7 +8,6 @@ export interface IUser extends IEntity {
   gender?: string;
   age?: number;
   avatarUrl?: string;
-  avatar? : any;
   interests?: string | string[];
   paricipating?: IEntity[]
 }

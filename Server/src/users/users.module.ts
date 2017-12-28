@@ -25,7 +25,7 @@ export class UsersModule implements NestModule {
     consumer.apply(loggerMiddleware).forRoutes(UsersController);
 
     consumer.apply(passport.authenticate('jwt', { session: false })).forRoutes(
-      // { path: '/users/:fb_id', method: RequestMethod.DELETE },
+      { path: '/users/:id', method: RequestMethod.GET },
       { path: '/users/:fb_id', method: RequestMethod.PATCH },
       { path: '/users', method: RequestMethod.GET },
       { path: '/users', method: RequestMethod.POST }

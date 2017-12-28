@@ -7,16 +7,16 @@
       <img class="logo" src="assets/img/MPIS_Logo.png" alt="MPIS Logo" routerLink="/home" />
       <h2 class="brand" fxHide.xs fxHide.lt-xs routerLink="/home">{{title}}</h2>
       <span fxFlex></span>
-      <button mat-icon-button aria-label="toggle navbar" (click)="sideMenu.sideNav.toggle()">
-        <mat-icon *ngIf="!menuOpened">menu</mat-icon>
-        <mat-icon *ngIf="menuOpened">close</mat-icon>
+      <button mat-icon-button aria-label="toggle navbar" (click)="toggleMenu()">
+        <mat-icon *ngIf="!isMenuOpened">menu</mat-icon>
+        <mat-icon *ngIf="isMenuOpened">close</mat-icon>
       </button>
       <app-user-menu (is-light)="isAppLightTheme = $event"></app-user-menu>
     </mat-toolbar-row>
   </mat-toolbar>
 
   <mat-sidenav-container fxFlex="1 1 100">
-    <app-side-menu [users]="users" [events]="events"></app-side-menu>
+    <app-side-menu></app-side-menu>
 
     <section class="content" fxFlex="1 1 100%">
       <router-outlet></router-outlet>
