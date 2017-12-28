@@ -22,7 +22,7 @@ export class EventsController {
     for (let event of events) {
       let creator = await this.usersSvc.repo.findOneById(event.createdBy);
       console.dir(creator);
-      event['createdBy'] = creator.name;
+      event['createdBy'] = creator;
       data.push(event);
     }
 

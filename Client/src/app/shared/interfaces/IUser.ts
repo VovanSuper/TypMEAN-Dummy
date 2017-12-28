@@ -9,5 +9,5 @@ export interface IUser extends IEntity {
   age?: number;
   avatarUrl?: string;
   interests?: string | string[];
-  paricipating?: IEntity[]
+  participating?: IEntity[] | string[];
 }
