@@ -1,6 +1,6 @@
 export class FbUserDto {
   readonly fb_token?: string;
-  fb_id: string | number | null;
-  fb_name?: string | null;
-  fb_email?: string | null;
+  readonly fb_id: string | null;
+  readonly fb_name?: string | null;
+  readonly fb_email?: string | null;
 }

@@ -1,19 +1,16 @@
 import { Module, NestModule, MiddlewaresConsumer } from '@nestjs/common';
 import * as passport from 'passport';
-import { EventsService } from './services/events.service';
 import { EventsController } from './controllers/events.controller';
 import { SharedModule } from '../shared/';
-import { AuthService } from '../shared/services/auth.service';
-import { UsersService } from '../shared/services/users.service';
 
 @Module({
-  modules: [
+  imports: [
     SharedModule
   ],
   components: [
-    AuthService,
-    UsersService,
-    EventsService
+    // AuthService,
+    // UsersService,
+    // EventsService
   ],
   controllers: [
     EventsController

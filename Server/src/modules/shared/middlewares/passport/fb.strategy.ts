@@ -2,7 +2,7 @@ import * as passport from 'passport';
 import { get } from 'config';
 import * as FbTokenStrategy from 'passport-facebook-token';
 import { Component } from '@nestjs/common';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component()
 export class FacebookStrategy extends FbTokenStrategy {

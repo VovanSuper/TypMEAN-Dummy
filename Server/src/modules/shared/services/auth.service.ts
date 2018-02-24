@@ -2,15 +2,16 @@ import { Component } from '@nestjs/common';
 import { get } from "config";
 import { Profile } from 'passport-facebook-token';
 import { UsersService } from './users.service';
-import { FbUserDto, UserDto } from '../../models/';
+import { FbUserDto, UserDto } from '../../../models/';
+import { User } from '../../../../data/entities/';
 
 @Component()
 export class AuthService {
 
   constructor(private readonly userSvc: UsersService) { }
 
-  async validateJwtUserByFbId(payload: FbUserDto): Promise<UserDto | null> {
-    let user = await this.userSvc.repo.findOne({ fb_id: payload.fb_id })
+  async validateJwtUserByFbId(payload: FbUserDto): Promise<User | null> {
+    let user = await this.userSvc.oneByFbId(payload.fb_id);
     if (user) {
       return user;
     } else {
@@ -20,7 +21,7 @@ export class AuthService {
     }
   }
 
-  async validateOrCreateFbUser(profile: Profile, accessToken: string): Promise<UserDto> {
+  async validateOrCreateFbUser(profile: Profile, accessToken: string): Promise<User> {
     try {
       let fbUser = await this.userSvc.upsertFbUser(profile, accessToken);
       if (fbUser) {

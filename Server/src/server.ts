@@ -31,8 +31,6 @@ createConnection(opts).then(async (connection: Connection) => {
 
   app.then(instance => {
     instance.use(cors());
-    // instance.use(json());
-    // instance.use(urlencoded({ extended: false }));
     // instance.use(passport.initialize({ userProperty: 'user' }));
 
     instance.listen(port, () => console.log(`Application is listening on port ${port}`))

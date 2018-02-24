@@ -1,18 +1,20 @@
 import { Module } from '@nestjs/common';
-import { UsersService, AuthService } from './services/';
-import { FacebookStrategy, JwtStrategy } from "./services/passport";
+import { FacebookStrategy, JwtStrategy } from "./middlewares/passport";
+import { UsersService, AuthService, EventsService } from './services/';
 
 @Module({
   components: [
     FacebookStrategy,
     JwtStrategy,
+    UsersService,
     AuthService,
-    UsersService
+    EventsService
   ],
   exports: [
     FacebookStrategy,
     JwtStrategy,
     UsersService,
+    EventsService,
     AuthService,
   ]
 })

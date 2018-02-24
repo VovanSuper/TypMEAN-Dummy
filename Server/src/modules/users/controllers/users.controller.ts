@@ -1,9 +1,6 @@
-import { readFileSync, appendFileSync } from 'fs';
-import { get } from 'config';
-import { sign, decode, DecodeOptions } from "jsonwebtoken";
 import { UsersService } from '../../shared/services/users.service';
-import { UserDto } from '../../models/user.dto';
-import { User } from '../../../data/entities/index';
+import { UserDto } from '../../../models/user.dto';
+import { User } from '../../../../data/entities/index';
 import {
   Controller,
   Get,
@@ -11,12 +8,9 @@ import {
   Body,
   Param,
   NotFoundException,
-  NotAcceptableException,
   Delete,
   Patch,
   BadRequestException,
-  Request,
-  Headers,
   UnprocessableEntityException,
   ForbiddenException
 } from '@nestjs/common';
@@ -28,7 +22,7 @@ export class UsersController {
 
   @Get()
   async getAll() {
-    let data = await this.usersSvc.repo.find();
+    let data = await this.usersSvc.all();
     return {
       operationStatus: 'Found',
       data: data
@@ -37,7 +31,7 @@ export class UsersController {
 
   @Get(':id')
   async getById( @Param('id') id: string) {
-    let user = await this.usersSvc.repo.findOneById(id)
+    let user = await this.usersSvc.oneById(id)
     if (!user)
       throw new NotFoundException(`No event with id ${id}`);
 
@@ -53,19 +47,18 @@ export class UsersController {
     //   throw new BadRequestException('Wrong method', 'Patch method should rather be used to update fb_user');
 
     try {
-      let newUser = await this.usersSvc.repo.insertOne(user);
+      let newUser = await this.usersSvc.create(user as User);
     } catch (e) {
       console.log(`[users.ctrl->createUser()]:: ${JSON.stringify(e)}`);
     }
   }
 
   @Patch(':fb_id')
-  async updateFbUser( @Param('fb_id') fb_id: number | string, @Body() userDto: UserDto) {
+  async updateFbUser( @Param('fb_id') fb_id: string, @Body() userDto: UserDto) {
 
     console.log(`[users.ctrl->post()]:: userDto posted: ${userDto}`);
     try {
-      let updatedUser = await this.usersSvc.repo
-        .findOneAndUpdate({ 'fb_id': fb_id }, userDto, { upsert: true });
+      let updatedUser = await this.usersSvc.updateOnByFbId(fb_id, userDto as Partial<User>)
 
       return {
         operationStatus: 'Existing FbUser Patched with new data',
@@ -91,9 +84,9 @@ export class UsersController {
 
   @Delete(':id') async deleteById( @Param('id') id: string) {
     try {
-      await this.usersSvc.repo.deleteById(id);
+      await this.usersSvc.deleteById(id);
       return {
-        operationStatus: `Succesfully Deleted`,
+        operationStatus: `Deleted`,
         data: `Deleted user ${id}`
       }
     } catch (e) {

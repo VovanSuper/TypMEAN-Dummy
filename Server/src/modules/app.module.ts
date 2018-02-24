@@ -5,7 +5,7 @@ import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module'
 
 @Module({
-  modules: [
+  imports: [
     SharedModule,
     AuthModule,
     EventsModule,
