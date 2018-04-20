@@ -3,13 +3,13 @@ import { get } from "config";
 import { Profile } from 'passport-facebook-token';
 import { UserEntityService } from './users.service';
 import { FbUserDto, UserDto } from '../../../models/';
-import { handleError } from '../../../../helpers/';
+import { handleError, svcCtorLogger } from '../../../../helpers/';
 
 @Component()
 export class AuthService {
 
   constructor(private readonly userSvc: UserEntityService) {
-    console.log('AuthService ctor..... ');
+    svcCtorLogger(AuthService)
    }
 
   async validateJwtUserByFbId(payload: FbUserDto): Promise<UserDto | null> {

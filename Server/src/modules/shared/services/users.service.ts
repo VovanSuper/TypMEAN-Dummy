@@ -4,17 +4,19 @@ import { Profile } from 'passport-facebook-token';
 // import { OrmRepository } from 'typeorm-typedi-extensions';
 
 import { UserEntity, EventEntity } from '../../../../data/entities/';
-import { handleError } from '../../../../helpers/';
+import { handleError, svcCtorLogger } from '../../../../helpers/';
+import { providerTokens } from '../../../../helpers/tokens';
+
 import { UserDto, User, UserBase, UserBaseDto, FbUser } from '../../../models/';
 
 @Component()
 export class UserEntityService {
 
   constructor(
-    @Inject('UserEntityRepositoryToken') private readonly UserEntityRepo: MongoRepository<UserEntity>,
-    @Inject('EventEntityRepositoryToken') private readonly EventEntityRepo: MongoRepository<EventEntity>
+    @Inject(providerTokens.UserEntityRepositoryToken) private readonly UserEntityRepo: MongoRepository<UserEntity>,
+    @Inject(providerTokens.EventEntityRepositoryToken) private readonly EventEntityRepo: MongoRepository<EventEntity>
   ) {
-    console.log('UsersService ctor..... ');
+    svcCtorLogger(UserEntityService);
   }
 
   async all(): Promise<UserBaseDto[] | void> {

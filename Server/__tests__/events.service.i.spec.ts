@@ -4,6 +4,7 @@ import { testProviders, getConn, closeConn, EventEntityServiceFactoryProvider } 
 import { TestProvidersModule } from '../helpers/test.provider.module';
 
 describe('EventsService', () => {
+  jest.setTimeout(50000);
 
   let module: TestingModule;
   let eventSvc: EventEntityService;

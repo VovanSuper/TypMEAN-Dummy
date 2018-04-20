@@ -20,6 +20,7 @@ import { UserBaseDto, UserDto, EventDto } from '../src/models/dto/';
 import { EventEntityService } from '../src/modules/shared/services/events.service';
 import { UserEntityService } from '../src/modules/shared/services/users.service';
 import { RepositoriesProviderModule } from './repos.provider.module';
+import { providerTokens } from "./tokens";
 
 
 export class EventEntityServiceFactory {
@@ -45,33 +46,35 @@ export class UserEntityServiceFactory {
 }
 
 export const defaultConnectionProvider = {
-  provide: 'defaultConnectionToken', useFactory: async (): Promise<Connection> => await getConn('default')
+  provide: providerTokens.defaultConnectionToken, useFactory: async (): Promise<Connection> => await getConn('default')
 };
 
 export const EventEntityRepositoryProvider = {
-  provide: 'EventEntityRepositoryToken',
+  provide: providerTokens.EventEntityRepositoryToken,
   useFactory: (conn: Connection) => conn.getMongoRepository(EventEntity)
-  , inject: ['defaultConnectionToken']
+  , inject: [providerTokens.defaultConnectionToken]
 };
 
 export const UserEntityRepositoryProvider = {
-  provide: 'UserEntityRepositoryToken',
+  provide: providerTokens.UserEntityRepositoryToken,
   useFactory: (conn: Connection) => conn.getMongoRepository(UserEntity)
-  , inject: ['defaultConnectionToken']
+  , inject: [providerTokens.defaultConnectionToken]
 };
 
 export const UserEntityServiceFactoryProvider = {
-  provide: 'UserEntityServiceToken',
+  provide: providerTokens.UserEntityServiceToken,
   useFactory: (usersRepo: MongoRepository<UserEntity>, eventsRepo: MongoRepository<EventEntity>) =>
-    new UserEntityService(usersRepo, eventsRepo)
-  , inject: ['UserEntityRepositoryToken', 'UserEntityRepositoryToken']
+    // new UserEntityService(usersRepo, eventsRepo)
+    UserEntityServiceFactory.getInstance(usersRepo, eventsRepo)
+  , inject: [providerTokens.UserEntityRepositoryToken, providerTokens.EventEntityRepositoryToken]
 };
 
 export const EventEntityServiceFactoryProvider = {
-  provide: 'EventEntityServiceToken',
+  provide: providerTokens.EventEntityServiceToken,
   useFactory: (eventsRepo: MongoRepository<EventEntity>, usersRepo: MongoRepository<UserEntity>) =>
-    new EventEntityService(eventsRepo, usersRepo)
-  , inject: ['EventEntityRepositoryToken', 'UserEntityRepositoryToken']
+    // new EventEntityService(eventsRepo, usersRepo)
+    EventEntityServiceFactory.getInstance(eventsRepo, usersRepo)
+  , inject: [providerTokens.EventEntityRepositoryToken, providerTokens.UserEntityRepositoryToken]
 };
 
 export const UserEntityServiceProvider = {

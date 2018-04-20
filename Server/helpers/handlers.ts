@@ -10,5 +10,9 @@ function handleError(e: Error | string) {
   return null;
 }
 
+function svcCtorLogger(svc: Function) {
+  console.log(`${svc.name} ctor...`);
+}
 
-export { handleError }
+
+export { handleError, svcCtorLogger }

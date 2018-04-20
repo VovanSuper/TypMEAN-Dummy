@@ -3,18 +3,19 @@ import { MongoRepository } from 'typeorm';
 
 import { EventDto, EventBaseDto, UserDto } from '../../../models/';
 import { EventEntity, UserEntity } from '../../../../data/entities/';
-import { handleError } from '../../../../helpers/handlers';
+import { handleError, svcCtorLogger } from '../../../../helpers/handlers';
 import { IEvent } from '../../../../../Client/src/app/shared/interfaces/';
+import { providerTokens } from '../../../../helpers/tokens';
 
 @Component()
 export class EventEntityService {
   //private eventsRepo: MongoRepository<EventModel>;
 
   constructor(
-    @Inject('EventEntityRepositoryToken') private readonly eventsRepo: MongoRepository<EventEntity>,
-    @Inject('UserEntityRepositoryToken') private readonly usersRepo: MongoRepository<UserEntity>
+    @Inject(providerTokens.EventEntityRepositoryToken) private readonly eventsRepo: MongoRepository<EventEntity>,
+    @Inject(providerTokens.UserEntityRepositoryToken) private readonly usersRepo: MongoRepository<UserEntity>
   ) {
-    console.log('EventsService ctor..... ');
+    svcCtorLogger(EventEntityService)
   }
 
   async all(): Promise<EventDto[] | void> {
@@ -60,7 +61,7 @@ export class EventEntityService {
       creator.participating.push(created.id.toString());
       let updCreator = await this.usersRepo.save(creator);
       console.log(`[EventsSvc.create]:: updated creator: ${JSON.stringify(updCreator)}`);
-      
+
       return EventDto.fromEntity(created);
     } catch (e) {
       handleError(e);

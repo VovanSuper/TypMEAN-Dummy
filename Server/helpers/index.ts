@@ -5,3 +5,4 @@ export * from './providers';
 export * from './conn.provider.module';
 export * from './repos.provider.module';
 export * from './test.provider.module';
+export * from './tokens';
