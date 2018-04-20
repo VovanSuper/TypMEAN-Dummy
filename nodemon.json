@@ -4,7 +4,7 @@
   ],
   "ext": "ts",
   "ignore": [
-    "Server/src/**/*.spec.ts"
+    "Server/**/*.spec.ts"
   ],
   "exec": "node Server/index.dev"
 }

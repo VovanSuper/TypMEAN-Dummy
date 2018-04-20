@@ -1,3 +1,3 @@
-export * from './event.dto';
-export * from './user.dto';
-export * from './fb_user.dto';
+export * from './values/';
+export * from './interfaces/';
+export * from './dto/';

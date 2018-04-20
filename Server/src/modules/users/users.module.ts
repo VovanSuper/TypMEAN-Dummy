@@ -9,11 +9,11 @@ import { loggerMiddleware } from '../shared/middlewares/';
   imports: [
     SharedModule
   ],
-  components: [
-    // MongoRepository,
-    // UsersService,
-    // AuthService
-  ],
+  // components: [
+  //   MongoRepository,
+  //   UsersService,
+  //   AuthService
+  // ],
   controllers: [
     UsersController
   ]

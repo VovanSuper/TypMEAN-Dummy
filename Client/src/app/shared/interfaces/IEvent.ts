@@ -1,12 +1,11 @@
 import { IEntity } from './';
 
 export interface IEvent extends IEntity {
-  place?: string;
   description?: string;
-  date?: Date;
-  startDate?: Date;
-  endDate?: Date;
-  createdAt?: Date;
+  place?: string;
+  startDate?: Date | string;
+  endDate?: Date | string;
+  createdAt?: Date | string;
   createdBy?: string;
-  participants?: IEntity[];
+  participants?: IEntity[] | string[];
 }

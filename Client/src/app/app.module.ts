@@ -1,5 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+// import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
 import { NgxSiemaModule } from 'ngx-siema';
 import { FacebookModule } from 'ngx-facebook';
 
@@ -20,6 +23,7 @@ import { HomeComponent } from './home/';
   ],
   imports: [
     BrowserModule,
+    // ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
     CommonDeptsModule,
     EnvironmentsModule.forRoot(),
     FacebookModule.forRoot(),

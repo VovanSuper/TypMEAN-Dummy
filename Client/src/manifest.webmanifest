@@ -1,29 +1,32 @@
 {
     "name": "My partner in Sport",
     "short_name": "MPIS",
+    "lang": "en-US",
     "icons": [
         {
-            "src": "android-chrome-192x192.png",
+            "src": "assets/imgandroid-chrome-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "android-chrome-256x256.png",
+            "src": "assets/img/android-chrome-256x256.png",
             "sizes": "256x256",
             "type": "image/png"
         },
         {
-            "src": "favicon-16x16.png",
+            "src": "assets/img/favicon-16x16.png",
             "sizes": "16x16",
             "type": "image/png"
         },
         {
-            "src": "favicon-32x32.png",
+            "src": "assets/img/favicon-32x32.png",
             "sizes": "32x32",
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "display": "standalone"
+    "scope": ".",
+    "theme_color": "#fff",
+    "background_color": "#ccc",
+    "display": "standalone",
+    "orientation": "portrait"
 }

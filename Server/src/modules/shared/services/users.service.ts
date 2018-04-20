@@ -1,128 +1,130 @@
-import { Component, Inject, forwardRef,  } from '@nestjs/common';
-import { MongoRepository, getMongoRepository, MongoError } from 'typeorm';
+import { Component, Inject } from '@nestjs/common';
+import { MongoRepository } from 'typeorm';
 import { Profile } from 'passport-facebook-token';
 // import { OrmRepository } from 'typeorm-typedi-extensions';
 
-import { User } from '../../../../data/entities';
-import { UserDto } from '../../../models/user.dto';
-import { EventsService } from './events.service';
-import { Event } from '@angular/router/src/events';
+import { UserEntity, EventEntity } from '../../../../data/entities/';
+import { handleError } from '../../../../helpers/';
+import { UserDto, User, UserBase, UserBaseDto, FbUser } from '../../../models/';
 
 @Component()
-export class UsersService {
-  public usersRepo: MongoRepository<User>;
+export class UserEntityService {
 
-  constructor(@Inject(forwardRef(() => EventsService)) private readonly eventsSvc: EventsService) {
-    this.usersRepo = getMongoRepository(User);
+  constructor(
+    @Inject('UserEntityRepositoryToken') private readonly UserEntityRepo: MongoRepository<UserEntity>,
+    @Inject('EventEntityRepositoryToken') private readonly EventEntityRepo: MongoRepository<EventEntity>
+  ) {
     console.log('UsersService ctor..... ');
   }
 
-  async upsertFbUser(profile: Profile, accessToken: string): Promise<User> {
+  async all(): Promise<UserBaseDto[] | void> {
     try {
-      let existingUser = await this.usersRepo.findOne({ 'fb_id': profile.id });
+      let users = await this.UserEntityRepo.find();
+      return users.map(user => UserBaseDto.fromEntity(user))
+    } catch (e) {
+      handleError(e);
+    }
+  }
+
+  async upsertFbUser(profile: Profile, accessToken: string): Promise<UserDto | void> {
+    try {
+      let existingUser = await this.UserEntityRepo.findOne({ 'fb_id': profile.id });
       if (!existingUser) {
-        let savedUser = await this.usersRepo.save({
-          name: profile.displayName,
+        let savedUser = await this.UserEntityRepo.save({
           email: profile.emails[0].value || null,
           avatarUrl: profile.photos[0].value || null,
           fb_id: profile.id,
           username: profile.username,
-          fb_token: accessToken
+          name: profile.displayName,
+          fb_token: accessToken,
+          registered: new Date()
         });
         if (savedUser) {
-          return savedUser as User;
+          return UserDto.fromEntity(savedUser);
         } else {
           return null;
         }
       }
       else {
-        return existingUser;
+        return UserDto.fromEntity(existingUser);
       }
     } catch (e) {
-      return this.handleError(e);
+      handleError(e);
     }
   }
 
-  async all(): Promise<User[]> {
+  async oneById(id: string): Promise<UserDto | void> {
     try {
-      return await this.usersRepo.find();
+      let user = await this.UserEntityRepo.findOne(id);
+      return UserDto.fromEntity(user)
     } catch (e) {
-      return this.handleError(e);
+      handleError(e);
     }
   }
 
-  async oneById(id: string | number): Promise<User> {
+  async oneByFbId(fbId: string): Promise<UserDto | void> {
     try {
-      return await this.usersRepo.findOneById(id);
+      let fbUser = await this.UserEntityRepo.findOne({ fb_id: fbId });
+      return UserDto.fromEntity(fbUser);
     } catch (e) {
-      return this.handleError(e);
+      handleError(e)
     }
   }
 
-  async oneByFbId(fb_id: string): Promise<User> {
+  async create(user: UserBaseDto): Promise<UserBaseDto | void> {
     try {
-      return await this.usersRepo.findOne({ fb_id: fb_id });
-    } catch (e) {
-      return this.handleError(e)
-    }
-  }
-
-  async create(user: Partial<User>): Promise<User> {
-    try {
-      let newUser = await this.usersRepo.save(user);
+      let newUser = await this.UserEntityRepo.save(user);
       if (!newUser || newUser === undefined)
         throw new Error('Error persisting user...');
 
-      return newUser as User;
+      return UserDto.fromEntity(newUser);
     } catch (e) {
-      return this.handleError(e);
+      handleError(e);
     }
   }
 
-  async updateOneByFbId(fbId: string, user: Partial<User>): Promise<User> {
+  async updateOneByFbId(fbId: string, user: UserBaseDto): Promise<UserDto> {
     try {
-      let existingUser = await this.usersRepo.findOne({ fb_id: fbId });
-      if (!existingUser)
-        throw new Error(`No user with fb_id of ${fbId} found, Must register with FB first...`);
+      // let existingUser = await this.usersRepo.findOne({ fb_id: fbId });
+      // if (!existingUser)
+      //   throw new Error(`No user with fb_id of ${fbId} found, Must register with FB first...`);
 
-      let updated = await this.usersRepo.findOneAndUpdate({ id: existingUser.id }, user, { upsert: false });
-      if (!updated || updated === undefined)
+      // let updated = await this.usersRepo.findOneAndUpdate({ id: existingUser.id }, user, { upsert: false });
+      let updated = await this.UserEntityRepo.findOneAndUpdate({ fb_id: fbId }, user, { upsert: false });
+      if (!updated || updated.ok !== 1)
         throw new Error(`Error updating the user`);
 
-      return await this.usersRepo.findOne(updated as Partial<User>);
+      return await UserDto.fromEntity(updated.value);
 
     } catch (e) {
-      return this.handleError(e);
+      handleError(e);
     }
   }
 
-  async updateOneById(id: string) {
+  async updateOneById(id: string, user: UserBaseDto): Promise<UserDto> {
     try {
+      let updated = await this.UserEntityRepo.findOneAndUpdate({ id: id }, user, { upsert: false });
+      if (!updated || updated.ok !== 1)
+        throw new Error(`Error updating the user`);
 
-    }catch (e) {
-      return this.handleError(e);
+      return await UserDto.fromEntity(updated.value);
+
+    } catch (e) {
+      handleError(e);
     }
   }
 
   async oneByFbIdAddEvent(eventId: string, predicate: Function) {
-    (await this.eventsSvc.all()).filter()
+    //TODO
+    // (await this.eventsSvc.all()).filter()
   }
 
   async deleteById(id: string): Promise<void> {
     try {
-      let deletion = this.usersRepo.deleteById(id);
-      deletion.then(_ => {
-        this.eventsSvc.all
-      })
+      let deletion = await this.UserEntityRepo.delete(id);
     } catch (e) {
-      this.handleError(e);
+      handleError(e);
     }
   }
 
-  private handleError(e: MongoError) {
-    console.log('Error executing query\n');
-    console.log(`${e.name} -- ${e.message}`);
-    console.log(`${e.stack || e}`);
-    return Promise.reject(e);
-  }
 }

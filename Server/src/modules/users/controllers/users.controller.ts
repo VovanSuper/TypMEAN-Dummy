@@ -1,6 +1,3 @@
-import { UsersService } from '../../shared/services/users.service';
-import { UserDto } from '../../../models/user.dto';
-import { User } from '../../../../data/entities/index';
 import {
   Controller,
   Get,
@@ -15,10 +12,13 @@ import {
   ForbiddenException
 } from '@nestjs/common';
 
+import { UserEntityService } from '../../shared/services/users.service';
+import { UserDto, UserBaseDto } from '../../../models/';
+
 @Controller('users')
 export class UsersController {
 
-  constructor(public usersSvc: UsersService) { }
+  constructor(public usersSvc: UserEntityService) { }
 
   @Get()
   async getAll() {
@@ -30,7 +30,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  async getById( @Param('id') id: string) {
+  async getById(@Param('id') id: string) {
     let user = await this.usersSvc.oneById(id)
     if (!user)
       throw new NotFoundException(`No event with id ${id}`);
@@ -42,23 +42,24 @@ export class UsersController {
   }
 
   @Post()   // method for registering a very new user?
-  async createUser( @Body() user: UserDto) {
+  async createUser(@Body() user: UserDto) {
     // if (user.fb_id)
     //   throw new BadRequestException('Wrong method', 'Patch method should rather be used to update fb_user');
 
     try {
-      let newUser = await this.usersSvc.create(user as User);
+      let newUser = await this.usersSvc.create(user);
     } catch (e) {
       console.log(`[users.ctrl->createUser()]:: ${JSON.stringify(e)}`);
+      throw new BadRequestException('Error saving new User ', e);
     }
   }
 
   @Patch(':fb_id')
-  async updateFbUser( @Param('fb_id') fb_id: string, @Body() userDto: UserDto) {
+  async updateFbUser(@Param('fb_id') fb_id: string, @Body() userDto: UserBaseDto) {
 
     console.log(`[users.ctrl->post()]:: userDto posted: ${userDto}`);
     try {
-      let updatedUser = await this.usersSvc.updateOnByFbId(fb_id, userDto as Partial<User>)
+      let updatedUser = await this.usersSvc.updateOneByFbId(fb_id, userDto)
 
       return {
         operationStatus: 'Existing FbUser Patched with new data',
@@ -82,7 +83,7 @@ export class UsersController {
   //   }
   // }
 
-  @Delete(':id') async deleteById( @Param('id') id: string) {
+  @Delete(':id') async deleteById(@Param('id') id: string) {
     try {
       await this.usersSvc.deleteById(id);
       return {

@@ -1,13 +1,13 @@
 import { IEntity } from './'
 
 export interface IUser extends IEntity {
-  username? : string;
-  email?: string;
-  registered?: Date,
-  work_place?: string;
-  gender?: string;
+  username?: string;
   age?: number;
+  email?: string;
+  location?: string;
+  gender?: string;
   avatarUrl?: string;
-  interests?: string | string[];
+  registered?: Date | string,
   participating?: IEntity[] | string[];
+  interests?: IEntity[] | string[] | string;
 }

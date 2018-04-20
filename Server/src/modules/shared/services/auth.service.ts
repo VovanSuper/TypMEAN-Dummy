@@ -1,16 +1,18 @@
-import { Component } from '@nestjs/common';
+import { Component, Inject } from '@nestjs/common';
 import { get } from "config";
 import { Profile } from 'passport-facebook-token';
-import { UsersService } from './users.service';
+import { UserEntityService } from './users.service';
 import { FbUserDto, UserDto } from '../../../models/';
-import { User } from '../../../../data/entities/';
+import { handleError } from '../../../../helpers/';
 
 @Component()
 export class AuthService {
 
-  constructor(private readonly userSvc: UsersService) { }
+  constructor(private readonly userSvc: UserEntityService) {
+    console.log('AuthService ctor..... ');
+   }
 
-  async validateJwtUserByFbId(payload: FbUserDto): Promise<User | null> {
+  async validateJwtUserByFbId(payload: FbUserDto): Promise<UserDto | null> {
     let user = await this.userSvc.oneByFbId(payload.fb_id);
     if (user) {
       return user;
@@ -21,7 +23,7 @@ export class AuthService {
     }
   }
 
-  async validateOrCreateFbUser(profile: Profile, accessToken: string): Promise<User> {
+  async validateOrCreateFbUser(profile: Profile, accessToken: string): Promise<UserDto | void> {
     try {
       let fbUser = await this.userSvc.upsertFbUser(profile, accessToken);
       if (fbUser) {
@@ -31,7 +33,7 @@ export class AuthService {
         return null;
       }
     } catch (e) {
-      console.log(`[auth.svc->validateORCreateFbUser()]:: ${JSON.stringify(e)}`);
+      handleError(e);
     }
   }
 }

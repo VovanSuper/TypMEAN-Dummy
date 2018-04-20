@@ -1,15 +1,15 @@
 base:
   port: 8080
   headOptions:
-    title: 'MPIS (dev)'
+    title: 'MPIS (test)'
     desc:  'A sample typed mean (Angular5, nest.js, typeorm, mongodb) project'
     keywords: 'Angular, node.js, nest.js, express.js, mongodb, typescript'
     author: 'Vladimir Ovsyukov (me@ovsyukov.info)'
 
 database:
-  host: 'mlab host here'
-  port: 27017
-  db: 'dab_name'
+  host: 'ds042687.mlab.com'
+  port: 42687
+  db: 'mpis'
   creds:
     username: 'test'
     password: 'test'
@@ -18,4 +18,4 @@ secrets:
   jwtStr: 's0meSupperS9cur9Str1ng'
   fb:
     appId: '1825033960857449'
-    appSecret: 'SomeStirngWhichIsTheFacebookAppSecret'
+    appSecret: '7407f9034980d256f2ab85162925ab77'

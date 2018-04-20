@@ -1,15 +1,18 @@
 {
+    "name": "default",
     "type": "mongodb",
     "host": "ds042687.mlab.com",
     "port": 42687,
     "username": "test",
     "password": "test",
     "database": "mpis",
+    "logging": "all",
+    "logger": "advanced-console",
     "synchronize": true,
-    "logging": true,
-    "dropSchema": true,
-    "keepAlive": 5000,
-    "connectTimeoutMS": 5000,
+    "entityPrefix": "mpis",
+    "keepAlive": 15000,
+    "connectTimeoutMS": 15000,
+
     "entities": [
         "Server/data/entities/**/*.ts"
     ],

@@ -1,5 +1,5 @@
 base:
-  port: 8080
+  port: 80
   headOptions:
     title: 'MPIS (prod - to be updated)'
     desc:  'A sample typed mean (Angular5, nest.js, typeorm, mongodb) project'

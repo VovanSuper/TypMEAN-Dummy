@@ -1,16 +1,15 @@
 import { readFileSync, appendFileSync } from 'fs';
 import { resolve } from 'path';
-import { Controller, Get, Post, Body, Param, NotFoundException, Headers, Request, BadRequestException, NotAcceptableException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, NotFoundException, Headers, Request, BadRequestException, NotAcceptableException, ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { ServerRequest } from 'http';
-import { EventDto } from '../../../models/event.dto';
-import { Event } from '../../../../data/entities/Event';
+import { EventDto } from '../../../models/';
 import * as express from 'express';
-import { UsersService, EventsService } from '../../shared/services/';
+import { EventEntityService } from '../../shared/services/events.service';
 
 @Controller('events')
 export class EventsController {
 
-  constructor(public eventsSvc: EventsService, public usersSvc: UsersService) { }
+  constructor(public eventsSvc: EventEntityService ) { }
 
   @Get()
   async getAll() {
@@ -61,10 +60,10 @@ export class EventsController {
       console.log(`Event.participants is array? = ${Array.isArray(event.participants)} `);
       console.log(`${parts} is type of  ${typeof parts}`);
       
-      return console.log(typeof event.participants);
+      console.log(typeof event.participants);
 
       if (!user)
-        throw new BadRequestException('Not authenticated', 'No req.user - not authenticated')
+        throw new UnauthorizedException('Not authenticated', 'No req.user - not authenticated')
 
       if (!event || !event.name.trim() || !event.place.trim() || !event.description)
         throw new NotAcceptableException('Invalid Event model', 'Event should have name, place and descriton at least (provide dates too)');

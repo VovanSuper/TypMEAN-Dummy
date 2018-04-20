@@ -1,0 +1,117 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { SharedModule } from '../src/modules/shared/shared.module';
+import { EventsService, UsersService } from '../src/modules/shared/services/';
+import {
+  defaultConnectionProvider,
+  EventsRepositoryProvider,
+  UsersRepositoryProvider,
+  closeConn,
+  makeTestValues,
+  removeTestValues,
+  getConn,
+  testProviders
+} from '../helpers/providers';
+import { userIUser, eventIEvent } from "../helpers/";
+import { EventBaseDto, EventDto, UserDto } from '../src/models';
+
+describe('EventService', async () => {
+  jest.setTimeout(15000);
+
+  let eventsSvc: EventsService;
+  let usersSvc: UsersService;
+  let module: TestingModule
+  let testUser;
+  let testEvents;
+
+  afterAll(async () => {
+    await removeTestValues();
+    await closeConn();
+  });
+
+  beforeAll(async () => {
+    // await getConn();
+    await removeTestValues();
+    // testEvents = await makeTestValues();
+
+    let testModule = await Test.createTestingModule({
+      // imports: [SharedModule]
+      components: [
+        ...testProviders
+      ],
+      exports: [
+        ...testProviders
+      ]
+    })
+    module = await testModule.compile();
+    eventsSvc = module.get<EventsService>(EventsService);
+    usersSvc = module.get<UsersService>(UsersService);
+
+  });
+
+  it('eventSvc should exist', () => {
+    expect(eventsSvc).toBeTruthy();
+  });
+
+  // describe('get:all', async () => {
+  //   it('should return all Event records from DB', async () => {
+  //     let allEvents = await eventsSvc.all();
+  //     if (allEvents) {
+  //       // expect(allEvents).not.toBeNil();
+  //       expect(allEvents).not.toBeNull();
+  //       expect(allEvents).toBeTruthy();
+  //       expect(allEvents.length).toBeGreaterThan(0);
+  //       console.log('All Events are:  ')
+  //       console.dir(allEvents)
+  //     } else
+  //       throw new Error('[get:all --> allEvents : no Events returned from Db')
+  //   });
+  // });
+
+  // describe('get:byId', () => {
+  //   it.only('should return the exact Event obj by id', async () => {
+  //     console.dir(testEvents)
+  //     let id = testEvents[0].id;
+  //     let theEvent = await eventsSvc.oneById(id);
+
+  //     if (theEvent) {
+  //       expect(theEvent.id).toEqual(testEvents[0].id);
+  //       expect(theEvent.name).toEqual(testEvents[0].name);
+  //       expect(theEvent.description).toEqual(testEvents[0]['description']);
+  //     }
+  //   });
+  // });
+
+  // describe('create new ', () => {
+  //   it('should be able to create new Event and return a EventDto', async () => {
+  //     let eventDto = EventBaseDto.fromInterface(eventIEvent);
+  //     let newEv = await eventsSvc.create(eventDto, testUser.id);
+  //     if (newEv) {
+  //       expect(newEv).toBeTruthy();
+  //       expect(newEv.name).toEqual(eventDto.name);
+  //       expect(newEv.createdBy.username).toEqual(testUser.username);
+  //       expect(newEv.createdBy.interests).toBeInstanceOf(Array);
+  //       console.dir(newEv);
+  //     }
+  //   });
+
+  // it('should have `participating` field in `testUser` collection correspongin to `participants` in Event', async () => {
+  //   let id = testEvents[0].id;
+  //   let theEvent = await eventsSvc.oneById(id);
+  //   console.dir(theEvent);
+  //   if (theEvent) {
+  //     let participantId = theEvent.participants[0].id;
+  //     console.log(participantId);
+  //     let participant = await usersSvc.oneById(participantId);
+  //     if (participant) {
+  //       expect(participant).toBeTruthy();
+  //       expect(participant).not.toBeUndefined();
+  //     }
+  //     else
+  //       throw new Error(`Expected Obj participant::: ${JSON.stringify(participant)}`)
+  //   }
+  // });
+
+  // });
+
+
+});
