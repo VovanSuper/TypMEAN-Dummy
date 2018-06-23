@@ -1,5 +1,13 @@
-import { serializeObjToJson, serializeObjFromJson, PlainObj, serializeToCoreObj } from '../../../helpers/extensions';
-import { classToPlainFromExist, plainToClassFromExist } from 'class-transformer';
+import {
+  serializeObjToJson,
+  serializeObjFromJson,
+  PlainObj,
+  serializeToCoreObj,
+} from '../../../helpers/extensions';
+import {
+  classToPlainFromExist,
+  plainToClassFromExist,
+} from 'class-transformer';
 import { IEvent } from '../interfaces/';
 import { UserBaseDto } from './base_user.dto';
 import { UserDto } from './user.dto';
@@ -8,7 +16,7 @@ export class EventBaseDto {
   [key: string]: string | string[] | number | Date | UserBaseDto | UserDto[];
 
   public readonly name: string;
-  public readonly place: string;
+  public readonly location: string;
   public readonly startDate: Date;
   public readonly endDate: Date;
   public readonly description?: string;
@@ -27,5 +35,4 @@ export class EventBaseDto {
   static fromEntity<T extends {}>(entity: T) {
     return serializeToCoreObj(EventBaseDto.prototype, entity);
   }
-
 }

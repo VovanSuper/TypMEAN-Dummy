@@ -1,3 +1,3 @@
-import 'jest-preset-angular';
+require('jest-preset-angular');
 
-import './jest-mocks';
+require('./jest-mocks');

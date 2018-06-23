@@ -4,7 +4,7 @@ export interface IEvent extends IEntity {
   [key: string]: string | string[] | number | object;
 
   description?: string;
-  place?: string;
+  location?: string;
   startDate: string;
   endDate: string;
   createdAt?: string;

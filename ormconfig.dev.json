@@ -1,0 +1,30 @@
+{
+    "name": "default",
+    "type": "mongodb",
+    "host": "ds042687.mlab.com",
+    "port": 42687,
+    "username": "test",
+    "password": "test",
+    "database": "mpis",
+    "logging": "all",
+    "logger": "advanced-console",
+    "synchronize": true,
+    "entityPrefix": "mpis__",
+    "keepAlive": 15000,
+    "connectTimeoutMS": 15000,
+
+    "entities": [
+        "Server/data/entities/**/*.ts"
+    ],
+    "migrations": [
+        "Server/data/migrations/**/*.ts"
+    ],
+    "subscribers": [
+        "Server/data/subscriber/**/*.ts"
+    ],
+    "cli": {
+        "entitiesDir": "Server/data/entities",
+        "migrationsDir": "Server/data/migrations",
+        "subscribersDir": "Server/data/subscribers"
+    }
+}

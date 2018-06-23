@@ -1,0 +1,10 @@
+{
+  "watch": [
+    "dist/out-tcs-test/"
+  ],
+  "ext": "js",
+  "ignore": [
+    "dist/out-tcs-test/**/*.spec.js"
+  ],
+  "exec": "node dist/out-tcs-test/index"
+}

@@ -9,39 +9,40 @@ import {
   Patch,
   BadRequestException,
   UnprocessableEntityException,
-  ForbiddenException
+  ForbiddenException,
+  UseGuards,
 } from '@nestjs/common';
 
 import { UserEntityService } from '../../shared/services/users.service';
 import { UserDto, UserBaseDto } from '../../../models/';
+import { AuthGuard } from '../../shared/middlewares/passport/auth.guard';
 
 @Controller('users')
+// @UseGuards(AuthGuard('jwt'))
 export class UsersController {
-
-  constructor(public usersSvc: UserEntityService) { }
+  constructor(private readonly usersSvc: UserEntityService) {}
 
   @Get()
   async getAll() {
     let data = await this.usersSvc.all();
     return {
       operationStatus: 'Found',
-      data: data
-    }
+      data: data,
+    };
   }
 
   @Get(':id')
   async getById(@Param('id') id: string) {
-    let user = await this.usersSvc.oneById(id)
-    if (!user)
-      throw new NotFoundException(`No event with id ${id}`);
+    let user = await this.usersSvc.oneById(id);
+    if (!user) throw new NotFoundException(`No event with id ${id}`);
 
     return {
       operationStatus: 'Found',
-      data: user
-    }
+      data: user,
+    };
   }
 
-  @Post()   // method for registering a very new user?
+  @Post() // method for registering a very new user?
   async createUser(@Body() user: UserDto) {
     // if (user.fb_id)
     //   throw new BadRequestException('Wrong method', 'Patch method should rather be used to update fb_user');
@@ -55,16 +56,18 @@ export class UsersController {
   }
 
   @Patch(':fb_id')
-  async updateFbUser(@Param('fb_id') fb_id: string, @Body() userDto: UserBaseDto) {
-
+  async updateFbUser(
+    @Param('fb_id') fb_id: string,
+    @Body() userDto: UserBaseDto,
+  ) {
     console.log(`[users.ctrl->post()]:: userDto posted: ${userDto}`);
     try {
-      let updatedUser = await this.usersSvc.updateOneByFbId(fb_id, userDto)
+      let updatedUser = await this.usersSvc.updateOneByFbId(fb_id, userDto);
 
       return {
         operationStatus: 'Existing FbUser Patched with new data',
-        data: updatedUser
-      }
+        data: updatedUser,
+      };
     } catch (e) {
       console.error(e);
       throw new BadRequestException('Error saving User', e);
@@ -83,13 +86,14 @@ export class UsersController {
   //   }
   // }
 
-  @Delete(':id') async deleteById(@Param('id') id: string) {
+  @Delete(':id')
+  async deleteById(@Param('id') id: string) {
     try {
       await this.usersSvc.deleteById(id);
       return {
         operationStatus: `Deleted`,
-        data: `Deleted user ${id}`
-      }
+        data: `Deleted user ${id}`,
+      };
     } catch (e) {
       console.log(`[user.ctrl->DeleteById()]:: ${JSON.stringify(e)}`);
       throw new UnprocessableEntityException('Error deleting User', e);

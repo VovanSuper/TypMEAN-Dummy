@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { UserStoreService } from './user-store.service'
+
+import { UserStoreService } from './user-store.service';
 import { Request } from '@angular/http/src/static_request';
 
 @Injectable()
@@ -22,14 +22,16 @@ export class HttpHelpersService {
     return new RequestOptions({ headers });
   }
 
-  public getBaseRequestOptionsWithFbAccessTokenAuth(access_token: string): RequestOptions {
+  public getBaseRequestOptionsWithFbAccessTokenAuth(
+    access_token: string,
+  ): RequestOptions {
     let headers = this.getRequestHeadersWithFbAccessTokenAuth(access_token);
     return new RequestOptions({ headers });
   }
 
   public getFormsRequestOptionsWithAuth(): RequestOptions {
     let headers = this.getformHeaders();
-    return new RequestOptions({ headers })
+    return new RequestOptions({ headers });
   }
 
   public getBaseRequestHeaders(): Headers {
@@ -49,7 +51,6 @@ export class HttpHelpersService {
     return this.authFbAccessTokenHeaders(this.baseHeaders(), access_token);
   }
 
-
   private baseHeaders(): Headers {
     let headers = new Headers();
     headers.append('Accept', 'application/json;q=0.9, */*;q=0.1');
@@ -57,12 +58,14 @@ export class HttpHelpersService {
     return headers;
   }
   private authHeaders(headers: Headers, token: string = ''): Headers {
-    if (!token || token.trim() === '')
-      token = this.userStoreSvc.getToken();
+    if (!token || token.trim() === '') token = this.userStoreSvc.getToken();
     headers.set('Authorization', 'Bearer ' + token);
     return headers;
   }
-  private authFbAccessTokenHeaders(headers: Headers, access_token: string): Headers {
+  private authFbAccessTokenHeaders(
+    headers: Headers,
+    access_token: string,
+  ): Headers {
     headers.append('access_token', access_token);
     return headers;
   }
@@ -72,8 +75,9 @@ export class HttpHelpersService {
     if (token && token !== undefined) {
       this.token = this.userStoreSvc.getToken();
     } else {
-      console.log(`[http-helpers.svc->reloadToken()]:: No token in store; token: ${token}`);
+      console.log(
+        `[http-helpers.svc->reloadToken()]:: No token in store; token: ${token}`,
+      );
     }
   }
-
 }

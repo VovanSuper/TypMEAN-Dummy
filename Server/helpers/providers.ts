@@ -10,24 +10,24 @@ import {
   getMongoRepository,
   ConnectionManager,
   Connection,
-  MongoRepository
+  MongoRepository,
 } from 'typeorm';
-import { Inject, Module } from "@nestjs/common";
-import { events, userBaseDto } from './entitiesDto.mock';
+import { Inject, Module } from '@nestjs/common';
 import { UserEntity, EventEntity } from '../data/entities';
-import { handleError } from '../helpers/handlers';
-import { UserBaseDto, UserDto, EventDto } from '../src/models/dto/';
+import { handleError, ConnHandler } from '../helpers/handlers';
 import { EventEntityService } from '../src/modules/shared/services/events.service';
 import { UserEntityService } from '../src/modules/shared/services/users.service';
-import { RepositoriesProviderModule } from './repos.provider.module';
-import { providerTokens } from "./tokens";
-
+import { providerTokens } from './tokens';
 
 export class EventEntityServiceFactory {
   static instance: EventEntityService;
 
-  static getInstance(eventsRepo: MongoRepository<EventEntity>, usersRepo: MongoRepository<UserEntity>) {
+  static getInstance(
+    eventsRepo: MongoRepository<EventEntity>,
+    usersRepo: MongoRepository<UserEntity>,
+  ) {
     if (!this.instance || this.instance == undefined) {
+      // this.instance = new EventEntityService(eventsRepo, usersRepo);
       this.instance = new EventEntityService(eventsRepo, usersRepo);
     }
     return this.instance;
@@ -37,157 +37,89 @@ export class EventEntityServiceFactory {
 export class UserEntityServiceFactory {
   static instance: UserEntityService;
 
-  static getInstance(usersRepo: MongoRepository<UserEntity>, eventsRepo: MongoRepository<EventEntity>) {
+  static getInstance(
+    usersRepo: MongoRepository<UserEntity>,
+    eventsRepo: MongoRepository<EventEntity>,
+  ) {
     if (!this.instance || this.instance == undefined) {
+      // this.instance = new UserEntityService(usersRepo, eventsRepo);
       this.instance = new UserEntityService(usersRepo, eventsRepo);
     }
     return this.instance;
   }
 }
 
-export const defaultConnectionProvider = {
-  provide: providerTokens.defaultConnectionToken, useFactory: async (): Promise<Connection> => await getConn('default')
+export const ConnectionProvider = (
+  connName: string = providerTokens.defaultConnectionToken,
+) => {
+  return {
+    provide: connName,
+    useFactory: async (): Promise<Connection> =>
+      await ConnHandler.getConn(connName),
+  };
 };
 
-export const EventEntityRepositoryProvider = {
-  provide: providerTokens.EventEntityRepositoryToken,
-  useFactory: (conn: Connection) => conn.getMongoRepository(EventEntity)
-  , inject: [providerTokens.defaultConnectionToken]
+export const EventEntityRepositoryProvider = (
+  connName: string = <string>providerTokens.defaultConnectionToken,
+) => {
+  return {
+    provide: <string>providerTokens.EventEntityRepositoryToken,
+    useFactory: (conn: Connection) => conn.getMongoRepository(EventEntity),
+    inject: [connName],
+  };
 };
 
-export const UserEntityRepositoryProvider = {
-  provide: providerTokens.UserEntityRepositoryToken,
-  useFactory: (conn: Connection) => conn.getMongoRepository(UserEntity)
-  , inject: [providerTokens.defaultConnectionToken]
+export const UserEntityRepositoryProvider = (
+  connName: string = <string>providerTokens.defaultConnectionToken,
+) => {
+  return {
+    provide: <string>providerTokens.UserEntityRepositoryToken,
+    useFactory: (conn: Connection) => conn.getMongoRepository(UserEntity),
+    inject: [connName],
+  };
 };
 
 export const UserEntityServiceFactoryProvider = {
-  provide: providerTokens.UserEntityServiceToken,
-  useFactory: (usersRepo: MongoRepository<UserEntity>, eventsRepo: MongoRepository<EventEntity>) =>
+  provide: <string>providerTokens.UserEntityServiceToken,
+  useFactory: (
+    usersRepo: MongoRepository<UserEntity>,
+    eventsRepo: MongoRepository<EventEntity>,
+  ) =>
     // new UserEntityService(usersRepo, eventsRepo)
-    UserEntityServiceFactory.getInstance(usersRepo, eventsRepo)
-  , inject: [providerTokens.UserEntityRepositoryToken, providerTokens.EventEntityRepositoryToken]
+    UserEntityServiceFactory.getInstance(usersRepo, eventsRepo),
+  inject: [
+    <string>providerTokens.UserEntityRepositoryToken,
+    <string>providerTokens.EventEntityRepositoryToken,
+  ],
 };
 
 export const EventEntityServiceFactoryProvider = {
-  provide: providerTokens.EventEntityServiceToken,
-  useFactory: (eventsRepo: MongoRepository<EventEntity>, usersRepo: MongoRepository<UserEntity>) =>
+  provide: <string>providerTokens.EventEntityServiceToken,
+  useFactory: (
+    eventsRepo: MongoRepository<EventEntity>,
+    usersRepo: MongoRepository<UserEntity>,
+  ) =>
     // new EventEntityService(eventsRepo, usersRepo)
-    EventEntityServiceFactory.getInstance(eventsRepo, usersRepo)
-  , inject: [providerTokens.EventEntityRepositoryToken, providerTokens.UserEntityRepositoryToken]
+    EventEntityServiceFactory.getInstance(eventsRepo, usersRepo),
+  inject: [
+    <string>providerTokens.EventEntityRepositoryToken,
+    <string>providerTokens.UserEntityRepositoryToken,
+  ],
 };
 
 export const UserEntityServiceProvider = {
-  provide: UserEntityService
-  , useClass: UserEntityService
+  provide: UserEntityService,
+  useClass: UserEntityService,
 };
 
 export const EventEntityServiceProvider = {
-  provide: EventEntityService
-  , useClass: EventEntityService
+  provide: EventEntityService,
+  useClass: EventEntityService,
 };
 
-export const testProviders: any[] = [
+export const testProviders = [
+  UserEntityServiceFactoryProvider,
   EventEntityServiceFactoryProvider,
-  UserEntityServiceFactoryProvider
   // UserEntityServiceProvider,
   // EventEntityServiceProvider
 ];
-
-export async function getConn(name = 'default') {
-  if (getConnectionManager().has(name) && getConnectionManager().get(name).isConnected) {
-    return Promise.resolve(getConnectionManager().get(name));
-  } else {
-    let ormConf = await readOrmConf();
-    return await createConnection(ormConf);
-  }
-}
-
-export async function closeConn(name = 'default') {
-  if (getConnectionManager().has(name) && getConnection(name).isConnected)
-    return await getConnection(name).close();
-}
-
-export async function makeTestValues() {
-  let conn = await getConn();
-
-  // let insUser = await conn.getMongoRepository(UserModel).save(userBaseDto);
-  // let user = await conn.getMongoRepository(UserModel).findOne(insUser);
-
-  // let newEvents = events.map(e => Object.assign({}, e, {
-  //   createdBy: user,
-  //   participants: [user]
-  // }));
-
-  let createdEvs = await conn.getMongoRepository(EventEntity).insertMany(events);
-  // let testEvents = await conn.getMongoRepository(EventModel).find();
-
-  // let updUser = UserDto.fromEntity(Object.assign({}, user, {
-  //   participating: [testEvents[0].id.toString(), testEvents[1].id.toString()]
-  // }));
-
-  // let userUpdRes = await getMongoRepository(UserModel).updateOne({ id: user.id }, updUser, { upsert: false });
-  // let testUser = UserDto.fromEntity(await getMongoRepository(UserModel).findOne(user));
-
-  return createdEvs;
-  // await conn.close();
-}
-
-export async function removeTestValues() {
-  let conn: Connection = await getConn();
-  let usrRepo = conn.getMongoRepository(UserEntity);
-  let evntRepo = conn.getMongoRepository(EventEntity);
-
-  let [evnts, ce] = await evntRepo.findAndCount();
-  if (ce > 0)
-    await evntRepo.deleteMany(evnts);
-
-  let [usrs, cu] = await usrRepo.findAndCount();
-  if (cu > 0)
-    await usrRepo.deleteMany(usrs);
-  // await conn.close();
-}
-
-
-export async function readOrmConf(path = null, name = 'default') {
-  try {
-    try {
-      return await getConnectionOptions(name)
-    }
-    catch (e) {
-      try {
-        let rootPath = path ? path : resolve(process.cwd());
-        let ormConfName = 'ormconfig.json'
-        // let conf = require(resolve(rootPath, ormConfName));
-        // let connStrObj = JSON.parse(conf);
-        let conOptsReader = new ConnectionOptionsReader({
-          root: rootPath,
-          configName: ormConfName
-        });
-
-        return await conOptsReader.get(name);
-      } catch (e) {
-        console.warn(`No ormConfig was read, using default opts:: ${e.message || e}`);
-        return Promise.resolve(opts);
-      }
-    }
-  } catch (e) {
-    handleError(e);
-  }
-}
-
-const opts: ConnectionOptions = {
-  type: 'mongodb',
-  name: 'default',
-  host: get<string>('database.host'),
-  port: get<number>('database.port'),
-  username: get<string>('database.creds.username'),
-  password: get<string>('database.creds.password'),
-  database: get<string>('database.db'),
-  logging: 'all',
-  logger: 'advanced-console',
-  entities: [EventEntity, UserEntity],
-  synchronize: true,
-  entityPrefix: 'mpis'
-}
-

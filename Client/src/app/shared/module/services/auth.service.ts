@@ -4,9 +4,9 @@ import { Http, Response } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import { IUser } from '../../interfaces/';
 import { HttpHelpersService, ApiService } from './index';
-import { FbQueriesService } from './fb-queries.service'
+import { FbQueriesService } from './fb-queries.service';
 import { EnvVariables, IEnvironmentVariables } from '../../environment/';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +19,7 @@ export class AuthService {
     private httpHelpers: HttpHelpersService,
     private api: ApiService,
     private fbQSvc: FbQueriesService,
-    @Inject(EnvVariables) private vars: IEnvironmentVariables
+    @Inject(EnvVariables) private vars: IEnvironmentVariables,
   ) {
     this.init();
   }
@@ -29,15 +29,16 @@ export class AuthService {
 
   get isAuthenticated(): boolean {
     let token = this.userStoreSvc.getToken();
-    return (token !== (null || undefined));
+    return token !== (null || undefined);
   }
 
   getUser(): IUser {
-    if (!this.isAuthenticated)
-      return null;
+    if (!this.isAuthenticated) return null;
 
     this.tokenInfo(this.userStoreSvc.getToken());
-    console.log(`[auth.service->currnetUser()]:: ${this.userStoreSvc.getUserInfo()}`);
+    console.log(
+      `[auth.service->currnetUser()]:: ${this.userStoreSvc.getUserInfo()}`,
+    );
     return this.userStoreSvc.getUserInfo();
   }
 
@@ -50,8 +51,10 @@ export class AuthService {
     let body = { username, password };
     let opts = this.httpHelpers.getBaseRequestOptions();
     return new Promise((resolve, reject) => {
-      this.http.post(this.vars.loginUrl, body, opts).map((resp: Response) => resp.json()).subscribe(
-        (resp) => {
+      this.http
+        .post(this.vars.loginUrl, body, opts)
+        .map((resp: Response) => resp.json())
+        .subscribe(resp => {
           let token = resp['data'] && resp['data'].token;
           if (token && token !== undefined) {
             this.tokenInfo(token);
@@ -61,49 +64,58 @@ export class AuthService {
           } else {
             reject(false);
           }
-        },
-        this.handleError
-      );
+        }, this.handleError);
     });
   }
 
   loginFb(): Promise<IUser> {
     return new Promise((resolve, reject) => {
-      this.fbQSvc.login().then(login => {
-        let fb_access_token = login.authResponse.accessToken;
-        if (!fb_access_token || fb_access_token === undefined)
-          throw new Error(`[auth.svc=>loginFb()]:: Excpected fb access_token, got: ${fb_access_token}`);
+      this.fbQSvc
+        .login()
+        .then(login => {
+          let fb_access_token = login.authResponse.accessToken;
+          if (!fb_access_token || fb_access_token === undefined)
+            throw new Error(
+              `[auth.svc=>loginFb()]:: Excpected fb access_token, got: ${fb_access_token}`,
+            );
 
-        this.api.authFb(fb_access_token).then(token => {
-          console.log(`[auth.svc->loginFb()]:: jwt token is ${token}`);
-          this.tokenInfo(token);
-          this.userStoreSvc.saveToken(token);
-          let payload = (this.jwtHelper.decodeToken(token));
-          console.log(`[auth.svc->loginFb()]:: payload from jwt: ${payload}`);
-          let mongoId = payload.id;
-          console.log(`[auth.svc->loginFb()]:: mongoId from jwt: ${mongoId}`);
-          if (!mongoId)
-            throw new Error('Error in jwt token responce');
+          this.api.authFb(fb_access_token).then(token => {
+            console.log(`[auth.svc->loginFb()]:: jwt token is ${token}`);
+            this.tokenInfo(token);
+            this.userStoreSvc.saveToken(token);
+            let payload = this.jwtHelper.decodeToken(token);
+            console.log(`[auth.svc->loginFb()]:: payload from jwt: ${payload}`);
+            let mongoId = payload.id;
+            console.log(`[auth.svc->loginFb()]:: mongoId from jwt: ${mongoId}`);
+            if (!mongoId) throw new Error('Error in jwt token responce');
 
-          this.api.getUserById(mongoId, token).then(user => {
-            if (!user || user === undefined) {
-              console.log(`loginFb, No user came from server; user is : ${user}`);
-              return reject('No user came back');
-            }
-            console.log(`[auth.svc->loginFb()->getUserById]:: User came from db: ${JSON.stringify(user)}`)
-            this.saveUser(user);
-            resolve(user);
-            this.isLoggedChange$.next(true);
-          })
-            .catch(err => {
-              this.handleError(err)
-              console.log(`[auth.svc->loginFb()]:: ${err}`)
-            });
+            this.api
+              .getUserById(mongoId, token)
+              .then(user => {
+                if (!user || user === undefined) {
+                  console.log(
+                    `loginFb, No user came from server; user is : ${user}`,
+                  );
+                  return reject('No user came back');
+                }
+                console.log(
+                  `[auth.svc->loginFb()->getUserById]:: User came from db: ${JSON.stringify(
+                    user,
+                  )}`,
+                );
+                this.saveUser(user);
+                resolve(user);
+                this.isLoggedChange$.next(true);
+              })
+              .catch(err => {
+                this.handleError(err);
+                console.log(`[auth.svc->loginFb()]:: ${err}`);
+              });
+          });
         })
-      })
         .catch(err => {
           console.log(`[auth.svc->loginFb()]:: ${err}`);
-          this.handleError(err)
+          this.handleError(err);
         });
     });
   }
@@ -113,10 +125,10 @@ export class AuthService {
     let body = JSON.stringify({ email });
     let opts = this.httpHelpers.getBaseRequestOptions();
     return new Promise((resolve, reject) => {
-      this.http.post(this.vars.forgotPasswordUrl, body, opts).map((resp: Response) => resp.json()).subscribe(
-        (resp) => resolve(resp['data'].message),
-        this.handleError
-      );
+      this.http
+        .post(this.vars.forgotPasswordUrl, body, opts)
+        .map((resp: Response) => resp.json())
+        .subscribe(resp => resolve(resp['data'].message), this.handleError);
     });
   }
 
@@ -130,24 +142,37 @@ export class AuthService {
       work_place: data.work_place,
       avatarUrl: data.avatarUrl,
       events: data.events,
-      token: data.token
+      token: data.token,
     };
     this.userStoreSvc.setUserInfo(user);
     // this.isLoggedChange$.next(true);
   }
 
   private init() {
-    this.isLoggedChange$ = (this.userStoreSvc.getToken()) ? new BehaviorSubject(true) : new BehaviorSubject(false);
+    this.isLoggedChange$ = this.userStoreSvc.getToken()
+      ? new BehaviorSubject(true)
+      : new BehaviorSubject(false);
   }
 
   private tokenInfo(token) {
-    console.log('[AuthenticationProvider:login] token expired?: ', this.jwtHelper.isTokenExpired(token));
-    console.log('[AuthenticationProvider:login] token decoded: ', this.jwtHelper.decodeToken(token));
-    console.log('[AuthenticationProvider:login] token exp date: ', this.jwtHelper.getTokenExpirationDate(token));
+    console.log(
+      '[AuthenticationProvider:login] token expired?: ',
+      this.jwtHelper.isTokenExpired(token),
+    );
+    console.log(
+      '[AuthenticationProvider:login] token decoded: ',
+      this.jwtHelper.decodeToken(token),
+    );
+    console.log(
+      '[AuthenticationProvider:login] token exp date: ',
+      this.jwtHelper.getTokenExpirationDate(token),
+    );
   }
   private handleError(error: any) {
     let errMsg: string;
-    errMsg = error.status ? `${error.status} ${error.toString()}` : error.toString();
+    errMsg = error.status
+      ? `${error.status} ${error.toString()}`
+      : error.toString();
 
     console.error(`Erorr in FbQuerirsSvc :: ${errMsg}`);
     return Promise.reject(errMsg);

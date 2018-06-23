@@ -1,30 +1,54 @@
-{
-    "name": "default",
-    "type": "mongodb",
-    "host": "ds042687.mlab.com",
-    "port": 42687,
-    "username": "test",
-    "password": "test",
-    "database": "mpis",
-    "logging": "all",
-    "logger": "advanced-console",
-    "synchronize": true,
-    "entityPrefix": "mpis",
-    "keepAlive": 15000,
-    "connectTimeoutMS": 15000,
-
-    "entities": [
-        "Server/data/entities/**/*.ts"
-    ],
-    "migrations": [
-        "Server/data/migrations/**/*.ts"
-    ],
-    "subscribers": [
-        "Server/data/subscriber/**/*.ts"
-    ],
-    "cli": {
-        "entitiesDir": "Server/data/entities",
-        "migrationsDir": "Server/data/migrations",
-        "subscribersDir": "Server/data/subscribers"
+[
+    {
+        "name": "default",
+        "type": "mongodb",
+        "host": "ds042687.mlab.com",
+        "port": 42687,
+        "username": "test",
+        "password": "test",
+        "database": "mpis",
+        "logging": "all",
+        "logger": "advanced-console",
+        "synchronize": true,
+        "entityPrefix": "mpis__",
+        "keepAlive": 15000,
+        "connectTimeoutMS": 15000,
+        "entities": [
+            "Server/data/entities/**/*.ts",
+            "dist/out-test-tsc/Server/data/entities/**/*.js"
+        ],
+        "migrations": [
+            "dist/out-test-tsc/Server/data/migrations/**/*.js"
+        ],
+        "subscribers": [
+            "dist/out-test-tsc/Server/data/subscriber/**/*.ts"
+        ],
+        "cli": {
+            "entitiesDir": "dist/out-test-tsc/Server/data/entities",
+            "migrationsDir": "dist/out-test-tsc/Server/data/migrations",
+            "subscribersDir": "dist/out-test-tsc/Server/data/subscribers"
+        }
+    },
+    {
+        "name": "test-conn",
+        "type": "mongodb",
+        "host": "ds042687.mlab.com",
+        "port": 42687,
+        "username": "test",
+        "password": "test",
+        "database": "mpis",
+        "logging": "all",
+        "logger": "advanced-console",
+        "synchronize": true,
+        "entityPrefix": "mpis__",
+        "keepAlive": 15000,
+        "connectTimeoutMS": 15000,
+        "entities": [
+            "Server/data/entities/**/*.ts",
+            "dist/out-test-tsc/Server/data/entities/**/*.js"
+        ],
+        "migrations": [
+            "dist/out-test-tsc/Server/data/migrations/**/*.js"
+        ]
     }
-}
+]

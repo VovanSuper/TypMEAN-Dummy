@@ -1,6 +1,14 @@
-import { Entity } from './entity';
-import { CoreObj, PlainObj, Ctor, coreObjFieldToJson, serializeToCoreObj } from '../../../helpers/extensions';
-import { classToPlainFromExist, plainToClassFromExist } from 'class-transformer';
+import {
+  CoreObj,
+  PlainObj,
+  Ctor,
+  coreObjFieldToJson,
+  serializeToCoreObj,
+} from '../../../helpers/extensions';
+import {
+  classToPlainFromExist,
+  plainToClassFromExist,
+} from 'class-transformer';
 import { EventBaseDto } from '../dto/base_event.dto';
 import { UserBase } from './base_user';
 
@@ -9,23 +17,28 @@ export class EventBase {
 
   constructor(
     public readonly eventname: string,
-    public readonly place: string,
+    public readonly location: string,
     public readonly startDate: Date,
     public readonly endDate: Date,
     public readonly description?: string,
     public readonly createdAt?: Date,
     public readonly createdBy?: UserBase,
-    public readonly participants?: UserBase[]
-  ) { }
+    public readonly participants?: UserBase[],
+  ) {}
 
   static mixin<TBase extends Ctor>(Base: TBase, Ext: EventBase) {
     return class extends Base {
       constructor(...args: any[]) {
         super(...args);
-        Object.setPrototypeOf(Base.prototype, Object.create(EventBase.prototype));
-        Object.getOwnPropertyNames(Ext).forEach(name => this[name] = Ext[name]);
+        Object.setPrototypeOf(
+          Base.prototype,
+          Object.create(EventBase.prototype),
+        );
+        Object.getOwnPropertyNames(Ext).forEach(
+          name => (this[name] = Ext[name]),
+        );
       }
-    }
+    };
   }
 
   //method used by JSON.stringify internally ( if presents in an object )
@@ -33,8 +46,8 @@ export class EventBase {
     return Object.assign({}, this, {
       startDate: this.startDate.toJSON(),
       endDate: this.endDate.toJSON(),
-      createdAt: this.createdAt.toJSON()
-    })
+      createdAt: this.createdAt.toJSON(),
+    });
   }
 
   // private toDtoIter<T extends CoreObj>(this: T): IterableIterator<PlainObj>
@@ -52,7 +65,6 @@ export class EventBase {
   //   return plainToClassFromExist(this, param);
   // }
 
-
   static fromDto<T extends EventBaseDto>(eventDto: T) {
     return serializeToCoreObj(EventBase, eventDto);
   }
@@ -62,7 +74,6 @@ export class EventBase {
   }
 
   static fromModel<T extends {}>(model: T) {
-    return serializeToCoreObj(EventBase, model)
+    return serializeToCoreObj(EventBase, model);
   }
-
 }

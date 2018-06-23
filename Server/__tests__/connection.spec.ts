@@ -1,28 +1,34 @@
-import { getConn, closeConn } from "../helpers/";
+import { Connection, createConnection, getConnection } from 'typeorm';
+import { ConnHandler } from '../helpers/handlers';
 
-describe('Connection', async () => {
-  let conn;
+describe('Connection', () => {
+  jest.setTimeout(1500);
+
+  let conn: Connection;
+  let connName = 'test-conn';
 
   beforeAll(async () => {
-
-    let connP = getConn('default');
-    conn = await connP;
+    if (conn && conn.name === connName && conn.isConnected)
+      return await conn.close();
   });
 
-  afterAll(async () => {
-    await closeConn('default');
-  })
+  beforeEach(async () => {
+    conn = await ConnHandler.getConn(connName);
+  });
 
-  it('should properly create a default connection', async () => {
+  afterEach(async () => {
+    if (conn && conn.isConnected) return await ConnHandler.closeConn(connName);
+  });
 
+  it('should properly create a `test-conn` connection', () => {
     expect(conn).toBeTruthy();
     expect(conn.isConnected).toBe(true);
-    expect(conn.name).toEqual('default');
+    expect(conn.name).toEqual(connName);
   });
 
   it('should be properly closed', async () => {
-    await conn.close();
+    ConnHandler.closeConn(connName);
+
     expect(conn.isConnected).toBe(false);
   });
-
-})
+});

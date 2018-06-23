@@ -1,55 +1,58 @@
+import 'reflect-metadata';
 import { Test, TestingModule } from '@nestjs/testing';
 import { SharedModule } from '../src/modules/shared/shared.module';
-import { EventsService, UsersService } from '../src/modules/shared/services/';
 import {
-  defaultConnectionProvider,
-  EventsRepositoryProvider,
-  UsersRepositoryProvider,
-  closeConn,
-  makeTestValues,
-  removeTestValues,
-  getConn,
-  testProviders
+  EventEntityService,
+  UserEntityService,
+} from '../src/modules/shared/services/';
+import {
+  ConnectionProvider,
+  UserEntityRepositoryProvider,
+  EventEntityRepositoryProvider,
+  testProviders,
 } from '../helpers/providers';
-import { userIUser, eventIEvent } from "../helpers/";
+import {
+  userIUser,
+  eventIEvent,
+  TestProvidersModule,
+  ConnHandler,
+} from '../helpers/';
 import { EventBaseDto, EventDto, UserDto } from '../src/models';
+import { removeTestValues, makeTestValues } from '../helpers/tests.stubs';
 
-describe('EventService', async () => {
+describe('EventService', () => {
   jest.setTimeout(15000);
 
-  let eventsSvc: EventsService;
-  let usersSvc: UsersService;
-  let module: TestingModule
-  let testUser;
-  let testEvents;
+  let eventsSvc: EventEntityService;
+  let usersSvc: UserEntityService;
+  let testUser: UserDto;
+  let testEvents: EventDto[];
 
   afterAll(async () => {
     await removeTestValues();
-    await closeConn();
+    await ConnHandler.closeConn('default');
   });
 
   beforeAll(async () => {
-    // await getConn();
-    await removeTestValues();
-    // testEvents = await makeTestValues();
+    let conn = await ConnHandler.getConn('default');
+    [testUser, ...testEvents] = await makeTestValues(conn);
+    // await removeTestValues();
 
-    let testModule = await Test.createTestingModule({
-      // imports: [SharedModule]
-      components: [
-        ...testProviders
-      ],
-      exports: [
-        ...testProviders
-      ]
-    })
-    module = await testModule.compile();
-    eventsSvc = module.get<EventsService>(EventsService);
-    usersSvc = module.get<UsersService>(UsersService);
-
+    let testModule: TestingModule = await Test.createTestingModule({
+      imports: [TestProvidersModule],
+      // ,providers: [
+      //   EventEntityService,
+      //   UserEntityService
+      // ]
+    }).compile();
+    eventsSvc = testModule.get<EventEntityService>(EventEntityService);
+    usersSvc = testModule.get<UserEntityService>(UserEntityService);
   });
 
-  it('eventSvc should exist', () => {
-    expect(eventsSvc).toBeTruthy();
+  describe('EventSvc', () => {
+    it.only('eventSvc should exist', async () => {
+      expect(eventsSvc).toBeTruthy();
+    });
   });
 
   // describe('get:all', async () => {
@@ -67,19 +70,20 @@ describe('EventService', async () => {
   //   });
   // });
 
-  // describe('get:byId', () => {
-  //   it.only('should return the exact Event obj by id', async () => {
-  //     console.dir(testEvents)
-  //     let id = testEvents[0].id;
-  //     let theEvent = await eventsSvc.oneById(id);
+  describe('get:byId', () => {
+    it('should return the exact Event obj by id', async () => {
+      console.log('TESTEVETN::::');
+      console.dir(testEvents);
+      let id = testEvents[0].id;
+      let theEvent = await eventsSvc.oneById(id);
 
-  //     if (theEvent) {
-  //       expect(theEvent.id).toEqual(testEvents[0].id);
-  //       expect(theEvent.name).toEqual(testEvents[0].name);
-  //       expect(theEvent.description).toEqual(testEvents[0]['description']);
-  //     }
-  //   });
-  // });
+      if (theEvent) {
+        expect(theEvent.id).toEqual(testEvents[0].id);
+        expect(theEvent.name).toEqual(testEvents[0].name);
+        expect(theEvent.description).toEqual(testEvents[0]['description']);
+      }
+    });
+  });
 
   // describe('create new ', () => {
   //   it('should be able to create new Event and return a EventDto', async () => {
@@ -112,6 +116,4 @@ describe('EventService', async () => {
   // });
 
   // });
-
-
 });

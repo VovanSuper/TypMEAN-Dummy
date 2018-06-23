@@ -1,19 +1,20 @@
-import { Module } from '@nestjs/common';
-import { EventEntityRepositoryProvider, UserEntityRepositoryProvider } from "./providers";
-import { ConnectionProviderModule } from './conn.provider.module';
+import { Module, NestModule } from '@nestjs/common';
+import { NestFactory, ModuleRef } from '@nestjs/core';
+import {
+  EventEntityRepositoryProvider,
+  UserEntityRepositoryProvider,
+} from './providers';
+import { DefaultConnectionProviderModule } from './conn.providers.module';
 
 @Module({
-  imports: [
-    ConnectionProviderModule
-  ],
-  components: [
-    EventEntityRepositoryProvider,
-    UserEntityRepositoryProvider
+  imports: [DefaultConnectionProviderModule],
+  providers: [
+    EventEntityRepositoryProvider('default'),
+    UserEntityRepositoryProvider('default'),
   ],
   exports: [
-    EventEntityRepositoryProvider,
-    UserEntityRepositoryProvider
-  ]
-
+    EventEntityRepositoryProvider('default'),
+    UserEntityRepositoryProvider('default'),
+  ],
 })
-export class RepositoriesProviderModule { }
+export class RepositoriesProviderModule {}

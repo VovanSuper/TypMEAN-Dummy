@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
-@Injectable() 
+@Injectable()
 export class MenuService {
   public sideMenuOpened: BehaviorSubject<boolean> = new BehaviorSubject(false);
 }

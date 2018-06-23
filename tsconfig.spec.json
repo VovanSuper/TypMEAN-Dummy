@@ -1,21 +1,28 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "watch": true,
     "outDir": "./dist/out-test-tsc",
-    "target": "es2015",
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": [
-      "node"
-    ],
     "lib": [
+      "es2015",
       "es2017"
     ]
   },
   "exclude": [
     "node_modules",
-    "dist",
-    "/Client"
+    "Client",
+    "coverage",
+    "config"
+  ],
+  "include": [
+    "Server"
   ]
 }

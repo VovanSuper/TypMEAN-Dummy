@@ -1,26 +1,37 @@
 import { Module } from '@nestjs/common';
-import { FacebookStrategy, JwtStrategy } from "./middlewares/passport/";
-import { UserEntityService, AuthService, EventEntityService } from './services/';
+import { FacebookStrategy, JwtStrategy } from './middlewares/passport/';
+import {
+  UserEntityService,
+  AuthService,
+  EventEntityService,
+} from './services/';
 import { RepositoriesProviderModule } from '../../../helpers/repos.provider.module';
+import { AuthGuard } from './middlewares/passport/auth.guard';
+import { DefaultConnectionProviderModule } from '../../../helpers/conn.providers.module';
+import {
+  UserEntityRepositoryProvider,
+  EventEntityRepositoryProvider,
+} from '../../../helpers/providers';
+import { providerTokens } from '../../../helpers/tokens';
 
 @Module({
-  imports: [
-    RepositoriesProviderModule
-  ],
-  components: [
-    FacebookStrategy,
-    JwtStrategy,
+  imports: [RepositoriesProviderModule],
+  // imports: [
+  //   DefaultConnectionProviderModule
+  // ],
+  providers: [
     UserEntityService,
     EventEntityService,
-    AuthService
+    AuthService,
+    FacebookStrategy,
+    JwtStrategy,
   ],
   exports: [
-    FacebookStrategy,
-    JwtStrategy,
     UserEntityService,
     EventEntityService,
-    AuthService
-  ]
-  ,
+    AuthService,
+    FacebookStrategy,
+    JwtStrategy,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

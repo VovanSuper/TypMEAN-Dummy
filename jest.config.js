@@ -1,6 +1,8 @@
 module.exports = {
   bail: true,
   verbose: true,
+  resetModules: true,
+  noStackTrace: true,
   transform: {
     "^.+\\.ts$": "ts-jest"
   },
@@ -9,7 +11,6 @@ module.exports = {
   ],
   testEnvironment: "node",
   testRegex: "(__test__/.*|(\\.|/)(spec|e2e-test))\\.(ts|js)$",
-  // setupTestFrameworkScriptFile: "jest-extended",
   moduleFileExtensions: [
     "ts",
     "js",

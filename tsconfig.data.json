@@ -2,10 +2,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
+    "target": "es2015",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "./Server/bin/data",
     "lib": [
+      "es2015",
       "es2017"
     ]
   }

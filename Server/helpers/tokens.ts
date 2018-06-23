@@ -1,11 +1,8 @@
-export enum providerTokens  {
-  defaultConnectionToken = 'defaultConnectionToken',
-  EventEntityRepositoryToken = 'EventEntityRepositoryToken',
-  UserEntityRepositoryToken = 'UserEntityRepositoryToken',
-  UserEntityServiceToken = 'UserEntityServiceToken',
-  EventEntityServiceToken = 'EventEntityServiceToken',
-
-
-
-
+export enum providerTokens {
+  defaultConnectionToken = 'default',
+  testConnectionToken = 'test-conn',
+  EventEntityRepositoryToken = 'EventEntityRepository',
+  UserEntityRepositoryToken = 'UserEntityRepository',
+  UserEntityServiceToken = 'UserEntityService',
+  EventEntityServiceToken = 'EventEntityService',
 }
