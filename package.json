@@ -77,7 +77,7 @@
     "passport-facebook-token": "^3.3.0",
     "passport-jwt": "^3.0.1",
     "passport-local": "^1.0.0",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.5.5",
     "typedi": "^0.6.0",
