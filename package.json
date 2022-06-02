@@ -45,7 +45,7 @@
     "@angular/common": "^5.1.1",
     "@angular/compiler": "^5.1.1",
     "@angular/compiler-cli": "^5.1.1",
-    "@angular/core": "^5.1.1",
+    "@angular/core": "^11.0.5",
     "@angular/flex-layout": "git+https://github.com/angular/flex-layout-builds.git",
     "@angular/forms": "^5.1.1",
     "@angular/http": "^5.1.1",
