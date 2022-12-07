@@ -64,7 +64,7 @@
     "config": "^1.28.1",
     "core-js": "^2.5.3",
     "cors": "^2.8.4",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "fb": "^2.0.0",
     "hammerjs": "^2.0.8",
     "jsonwebtoken": "^8.1.0",
